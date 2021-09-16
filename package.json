@@ -10,7 +10,6 @@
   },
   "dependencies": {
     "@types/jest": "^27.0.1",
-    "@types/knex": "^0.16.1",
     "@types/supertest": "^2.0.11",
     "bcryptjs": "^2.4.3",
     "consign": "^0.1.6",
@@ -31,7 +30,8 @@
     "supertest": "^6.1.6"
   },
   "devDependencies": {
-    "@babel/core": "^7.9.0"
+    "@babel/core": "^7.9.0",
+    "@types/knex": "^0.16.1"
   },
   "private": true
 }
