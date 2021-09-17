@@ -14,20 +14,23 @@ describe("Categoria", () => {
 
 })
 */
+
+//TODO: Teste auth.js
+/*
 describe("Test auth.js", () => {
 
-    // test("Deve retornar statusCode 200 se receber credenciais que confiram com o BD", () => {
-    //     let credentials = {mail:'teste@gmail.com', password: '123456'}
+    test("Deve retornar statusCode 200 se receber credenciais que confiram com o BD", () => {
+        let credentials = {mail:'teste@gmail.com', password: '123456'}
 
-    //     return request.post("/signin")
-    //     .send(credentials)
-    //     .then(res => {
-    //         expect(res.statusCode).toEqual(200)
+        return request.post("/signin")
+        .send(credentials)
+        .then(res => {
+            expect(res.statusCode).toEqual(200)
 
-    //     }).catch(err =>{
-    //         fail(err)
-    //     })
-    // })
+        }).catch(err =>{
+            fail(err)
+        })
+    })
 
     test("Deve retornar statusCode 400 se o campo e-mail ou senha não for informado.", () => {
         // TODO: O teste
@@ -48,8 +51,10 @@ describe("Test auth.js", () => {
     })
 
 })
+*/
 
-
+//TODO: Teste card.js
+/*
 describe("Test card.js", () => {
 
     test("Deve retornar statusCode 200 se conseguir persistir um novo cartão no BD", () => {
@@ -83,8 +88,9 @@ describe("Test card.js", () => {
     })
 
 })
-
-
+*/
+//TODO: Teste offer.js
+/*
 describe("Test offer.js", () => {
 
     test("Deve retornar statusCode 200 se conseguir persistir uma nova oferta no BD", () => {
@@ -130,8 +136,9 @@ describe("Test offer.js", () => {
     })
 
 })
-
-
+*/
+//TODO: Teste payment.js
+/*
 describe("Test payment.js", () => {
 
     test("Deve retornar statusCode 200 se conseguir realizar um pagamento", () => {
@@ -147,7 +154,9 @@ describe("Test payment.js", () => {
     })
 
 })
-
+*/
+//TODO: Teste ticket.js
+/*
 
 describe("Test ticket.js", () => {
 
@@ -194,8 +203,9 @@ describe("Test ticket.js", () => {
     })
 
 })
+*/
 
-
+//TODO: Teste user.js
 describe("Test user.js", () => {
 
     test("Deve retornar statusCode 200 se conseguir persistir um novo user no BD", () => {
@@ -242,7 +252,8 @@ describe("Test user.js", () => {
 
 })
 
-
+//TODO: Teste company.js
+/*
 describe("Test company.js", () => {
 
     test("Deve retornar statusCode 200 se conseguir persistir uma nova empresa no BD", () => {
@@ -288,8 +299,9 @@ describe("Test company.js", () => {
     })
 
 })
-
-
+*/
+//TODO: Teste role.js
+/*
 describe("Test role.js", () => {
 
     test("Deve retornar statusCode 200 se conseguir persistir uma nova função no BD", () => {
@@ -335,7 +347,9 @@ describe("Test role.js", () => {
     })
 
 })
-
+*/
+//TODO: Teste settings.js
+/*
 
 describe("Test setting.js", () => {
 
@@ -381,7 +395,9 @@ describe("Test setting.js", () => {
     })
 
 })
-
+*/
+//TODO: Teste user_ticket.js
+/*
 
 describe("Test user_ticket.js", () => {
 
@@ -428,3 +444,4 @@ describe("Test user_ticket.js", () => {
     })
 
 })
+*/
