@@ -1,6 +1,6 @@
-// import app from "../src/App" Na real ele quer a aplicação express
-// import supertest from "supertest"
-// let request = supertest(app)
+import app from "../index"
+import supertest from "supertest"
+let request = supertest(app)
 
 /*
 TODO: Diretório para guardar os testes desta aplicação
@@ -208,47 +208,47 @@ describe("Test ticket.js", () => {
 //TODO: Teste user.js
 describe("Test user.js", () => {
 
-    test("Deve retornar statusCode 200 se conseguir persistir um novo user no BD", () => {
-        // TODO: O teste
-        let recebi_do_sistema = 0
-        expect(recebi_do_sistema).toEqual('O que eu espero receber')
-    })
+  test("Deve retornar statusCode 200 se conseguir persistir um novo user no BD", () => {
+    // TODO: O teste
 
-    test("Deve retornar statusCode 200 se conseguir alterar um user existente no BD", () => {
-        // TODO: O teste
-        let recebi_do_sistema = 0
-        expect(recebi_do_sistema).toEqual('O que eu espero receber')
-    })
+    return request.get('/').then(res => expect(res.statusCode).toEqual(200))
+  })
 
-    test("Deve retornar statusCode 200 se conseguir recuperar um user existente no BD", () => {
-        // TODO: O teste
-        let recebi_do_sistema = 0
-        expect(recebi_do_sistema).toEqual('O que eu espero receber')
-    })
+  test("Deve retornar statusCode 200 se conseguir alterar um user existente no BD", () => {
+    // TODO: O teste
+    let recebi_do_sistema = 0
+    expect(recebi_do_sistema).toEqual('O que eu espero receber')
+  })
 
-    test("Deve retornar statusCode 200 se conseguir remover um user no BD", () => {
-        // TODO: O teste
-        let recebi_do_sistema = 0
-        expect(recebi_do_sistema).toEqual('O que eu espero receber')
-    })
+  test("Deve retornar statusCode 200 se conseguir recuperar um user existente no BD", () => {
+    // TODO: O teste
+    let recebi_do_sistema = 0
+    expect(recebi_do_sistema).toEqual('O que eu espero receber')
+  })
 
-    test("Deve retornar statusCode 400 se não conseguir persistir um user no BD", () => {
-        // TODO: O teste
-        let recebi_do_sistema = 0
-        expect(recebi_do_sistema).toEqual('O que eu espero receber')
-    })
+  test("Deve retornar statusCode 200 se conseguir remover um user no BD", () => {
+    // TODO: O teste
+    let recebi_do_sistema = 0
+    expect(recebi_do_sistema).toEqual('O que eu espero receber')
+  })
 
-    test("Deve retornar statusCode 400 se não conseguir recuperar um user no BD", () => {
-        // TODO: O teste
-        let recebi_do_sistema = 0
-        expect(recebi_do_sistema).toEqual('O que eu espero receber')
-    })
+  test("Deve retornar statusCode 400 se não conseguir persistir um user no BD", () => {
+    // TODO: O teste
+    let recebi_do_sistema = 0
+    expect(recebi_do_sistema).toEqual('O que eu espero receber')
+  })
 
-    test("Deve retornar statusCode 400 se não conseguir alterar um user no BD", () => {
-        // TODO: O teste
-        let recebi_do_sistema = 0
-        expect(recebi_do_sistema).toEqual('O que eu espero receber')
-    })
+  test("Deve retornar statusCode 400 se não conseguir recuperar um user no BD", () => {
+    // TODO: O teste
+    let recebi_do_sistema = 0
+    expect(recebi_do_sistema).toEqual('O que eu espero receber')
+  })
+
+  test("Deve retornar statusCode 400 se não conseguir alterar um user no BD", () => {
+    // TODO: O teste
+    let recebi_do_sistema = 0
+    expect(recebi_do_sistema).toEqual('O que eu espero receber')
+  })
 
 })
 
