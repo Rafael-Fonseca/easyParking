@@ -3,7 +3,7 @@ module.exports = app => {
     /*TODO: Criar as funções para as rotas, enquanto elas não existem
             elas crasham o código, por isso estão comentadas*/
             
-    // app.post('/signup', app.api.user.save)
+    app.post('/signup', app.api.user.save)
     // app.post('/signin', app.api.auth.signin)
 
     // app.route('/tasks')

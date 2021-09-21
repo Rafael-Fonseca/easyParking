@@ -41,21 +41,19 @@ export default class Login extends Component {
     }
   }
 
-  signup = async () => {
-    try {
-      await axios.post(`${server}/signup`, {
-        name: this.state.name,
-        cpf: this.state.cpf,
-        mail: this.state.mail,
-        password: this.state.password,
-        confirmPassword: this.state.confirmPassword,
-      })
-
+  signup = () => {
+    axios.post(`${server}/signup`, {
+      name: this.state.name,
+      cpf: this.state.cpf,
+      mail: this.state.mail,
+      password: this.state.password
+      // confirmPassword: `${this.state.confirmPassword}`,
+    })
+    .then(()=> {
       showSuccess('Usuário cadastro!')
       this.setState({ ...initialState })
-    } catch (e) {
-      showError(e)
-    }
+    })
+    .catch(e => showError(e))
   }
 
   signin = () => {
