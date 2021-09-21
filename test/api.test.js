@@ -14,6 +14,33 @@ describe("Categoria", () => {
 
 })
 */
+//Vamos utilizar o timestamp para assegurar que os valores adicionados
+//ao banco de dados sejam únicos, evitando erros por chaves repetidas
+pass_time = () =>{
+
+}
+create_user_data = () => {
+  // TODO: Este teste deve ser alterado a cada implementação de validação 
+  // no user.js
+  const now = Date.now().toString()
+  let cpf = now.toString().slice(0, 11)
+  let name = cpf
+  let mail = cpf+'@provedor.com'
+  let password = cpf.slice(0,6)
+  let confirmPassword = cpf.slice(0,6)
+  
+  user_data = {
+    name,
+    cpf,
+    mail,
+    password,
+    confirmPassword,
+    fk_roles_user: 1,
+    isActive: true,
+  }
+  return user_data
+}
+
 
 //TODO: Teste auth.js
 /*
@@ -208,10 +235,27 @@ describe("Test ticket.js", () => {
 //TODO: Teste user.js
 describe("Test user.js", () => {
 
-  test("Deve retornar statusCode 200 se conseguir persistir um novo user no BD", () => {
-    // TODO: O teste
+  test("Deve retornar statusCode 204 se conseguir persistir um novo user no BD", () => {
+    setInterval(pass_time, 1000)
+    data_post = create_user_data()
+    return request.post('/signup').send(data_post)
+    .then(res => expect(res.statusCode).toEqual(204))
+  })
 
-    return request.get('/').then(res => expect(res.statusCode).toEqual(200))
+  test("Deve retornar statusCode 204 se conseguir persistir um novo admin no BD", () => {
+    setInterval(pass_time, 1000)
+    data_post = create_user_data()
+    data_post.fk_roles_user = 2
+    return request.post('/signup').send(data_post)
+    .then(res => expect(res.statusCode).toEqual(204))
+  })
+
+  test("Deve retornar statusCode 204 se conseguir persistir um novo empregado no BD", () => {
+    setInterval(pass_time, 1000)
+    data_post = create_user_data()
+    data_post.fk_roles_user = 3
+    return request.post('/signup').send(data_post)
+    .then(res => expect(res.statusCode).toEqual(204))
   })
 
   test("Deve retornar statusCode 200 se conseguir alterar um user existente no BD", () => {

@@ -13,7 +13,6 @@ import {
 import commonStyles from '../commonStyles';
 
 // Importações do Back end
-import AsyncStorage from '@react-native-async-storage/async-storage'
 import axios from 'axios'
 import { server, showError, showSuccess } from '../../code/common';
 

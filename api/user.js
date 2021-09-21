@@ -1,33 +1,33 @@
 const bcrypt = require('bcryptjs')
 
 module.exports = app => {
-    const obterHash = (password, callback) => {
-        bcrypt.genSalt(10, (err, salt) => {
-            bcrypt.hash(password, salt, (err, hash) => callback(hash))
-        })
-    }
+  const obterHash = (password, callback) => {
+    bcrypt.genSalt(10, (err, salt) => {
+      bcrypt.hash(password, salt, (err, hash) => callback(hash))
+    })
+  }
 
-    // obterHash recebe os parametros (senha digitada pelo usuario , Callback Function)
-    //      genSalt(10 saltos, arrow function que em caso de erro é realizada)
-    // dentro da arrow function tem um .hash (dado a ser encriptado, saltos, progresso, erro(passou callback))
+  // obterHash recebe os parametros (senha digitada pelo usuario , Callback Function)
+  //      genSalt(10 saltos, arrow function que em caso de erro é realizada)
+  // dentro da arrow function tem um .hash (dado a ser encriptado, saltos, progresso, erro(passou callback))
 
-    const save = (req, res) => {
-        obterHash(req.body.password, hash => {
-            const password = hash
-            app.db('tb_users')
-            .insert({
-                name: `${req.body.name}`,
-                cpf: `${req.body.cpf}`,
-                mail: `${req.body.mail}`,
-                password: `${password}`,
-                fk_roles_user: 1,
-                is_active: true,
-                })
-            .then(_ => res.status(204).send())
-            .catch(err => res.status(400).json(err))
+  const save = (req, res) => {
+    obterHash(req.body.password, hash => {
+      const password = hash
+      app.db('tb_users')
+        .insert({
+          name: `${req.body.name}`,
+          cpf: `${req.body.cpf}`,
+          mail: `${req.body.mail}`,
+          password: `${password}`,
+          fk_roles_user: req.body.fk_roles_user || 1,
+          is_active: true,
         })
-    }
-    return {save}
+        .then(_ => res.status(204).send())
+        .catch(err => res.status(400).json(err))
+    })
+  }
+  return { save }
 }
 
 
