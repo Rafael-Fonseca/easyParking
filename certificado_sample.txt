@@ -1,0 +1,2 @@
+Este arquivo deve conter o seu certificado SSL e deve
+ser da extensão .cert

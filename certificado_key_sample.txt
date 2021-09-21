@@ -1,0 +1,2 @@
+Este arquivo deve conter o sua chave SSL e deve
+ser da extensão .key
