@@ -16,7 +16,7 @@ describe("Categoria", () => {
 */
 //Vamos utilizar o timestamp para assegurar que os valores adicionados
 //ao banco de dados sejam únicos, evitando erros por chaves repetidas
-pass_time = () =>{
+pass_time = () => {
 
 }
 create_user_data = () => {
@@ -25,10 +25,10 @@ create_user_data = () => {
   const now = Date.now().toString()
   let cpf = now.toString().slice(0, 11)
   let name = cpf
-  let mail = cpf+'@provedor.com'
-  let password = cpf.slice(0,6)
-  let confirmPassword = cpf.slice(0,6)
-  
+  let mail = cpf + '@provedor.com'
+  let password = cpf.slice(0, 6)
+  let confirmPassword = cpf.slice(0, 6)
+
   user_data = {
     name,
     cpf,
@@ -43,42 +43,61 @@ create_user_data = () => {
 
 
 //TODO: Teste auth.js
-/*
 describe("Test auth.js", () => {
 
-    test("Deve retornar statusCode 200 se receber credenciais que confiram com o BD", () => {
-        let credentials = {mail:'teste@gmail.com', password: '123456'}
+  test("Deve retornar statusCode 200 se receber credenciais que confiram com o BD", () => {
+    let credentials = {mail: 'Raf', password: '123' }
 
-        return request.post("/signin")
-        .send(credentials)
-        .then(res => {
-            expect(res.statusCode).toEqual(200)
+    return request.post("/signin")
+      .send(credentials)
+      .then(res => {
+        expect(res.statusCode).toEqual(200)
+      })
+  })
 
-        }).catch(err =>{
-            fail(err)
-        })
-    })
+  test("Deve retornar statusCode 400 se o campo e-mail ou senha não for informado.", () => {
+    //let credentials = {password: '123' }
+    let credentials = {mail: 'test@mail.com' }
 
-    test("Deve retornar statusCode 400 se o campo e-mail ou senha não for informado.", () => {
-        // TODO: O teste
-        let recebi_do_sistema = 0
-        expect(recebi_do_sistema).toEqual('O que eu espero receber')
-    })
 
-    test("Deve retornar statusCode 400 se o campo e-mail ou senha estiver incorreto.", () => {
-        // TODO: O teste
-        let recebi_do_sistema = 0
-        expect(recebi_do_sistema).toEqual('O que eu espero receber')
-    })
+    return request.post("/signin")
+      .send(credentials)
+      .then(res => {
+        expect(res.statusCode).toEqual(400)
+      })
+  })
 
-    test("Deve retornar statusCode 401 se o campo senha informado estiver errado.", () => {
-        // TODO: O teste
-        let recebi_do_sistema = 0
-        expect(recebi_do_sistema).toEqual('O que eu espero receber')
-    })
+  test("Deve retornar statusCode 401 se o campo senha estiver incorreto.", () => {
+    let credentials = {mail: 'Raf', password: '1234' }
+
+    return request.post("/signin")
+      .send(credentials)
+      .then(res => {
+        expect(res.statusCode).toEqual(401)
+      })
+  })
+
+  test("Deve retornar statusCode 400 se o campo e-mail informado estiver errado.", () => {
+    let credentials = {mail: 'Rafa', password: '123' }
+
+    return request.post("/signin")
+      .send(credentials)
+      .then(res => {
+        expect(res.statusCode).toEqual(400)
+      })
+  })
+
+  test("Deve retornar statusCode 400 se os campos e-mail e senha informados estiverem errados.", () => {
+    let credentials = {mail: 'Rafa', password: '1234' }
+
+    return request.post("/signin")
+      .send(credentials)
+      .then(res => {
+        expect(res.statusCode).toEqual(400)
+      })
+  })
 
 })
-*/
 
 //TODO: Teste card.js
 /*
@@ -239,7 +258,7 @@ describe("Test user.js", () => {
     setInterval(pass_time, 1000)
     data_post = create_user_data()
     return request.post('/signup').send(data_post)
-    .then(res => expect(res.statusCode).toEqual(204))
+      .then(res => expect(res.statusCode).toEqual(204))
   })
 
   test("Deve retornar statusCode 204 se conseguir persistir um novo admin no BD", () => {
@@ -247,7 +266,7 @@ describe("Test user.js", () => {
     data_post = create_user_data()
     data_post.fk_roles_user = 2
     return request.post('/signup').send(data_post)
-    .then(res => expect(res.statusCode).toEqual(204))
+      .then(res => expect(res.statusCode).toEqual(204))
   })
 
   test("Deve retornar statusCode 204 se conseguir persistir um novo empregado no BD", () => {
@@ -255,7 +274,7 @@ describe("Test user.js", () => {
     data_post = create_user_data()
     data_post.fk_roles_user = 3
     return request.post('/signup').send(data_post)
-    .then(res => expect(res.statusCode).toEqual(204))
+      .then(res => expect(res.statusCode).toEqual(204))
   })
 
   test("Deve retornar statusCode 200 se conseguir alterar um user existente no BD", () => {

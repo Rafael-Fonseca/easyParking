@@ -21,12 +21,19 @@ module.exports = app => {
           mail: `${req.body.mail}`,
           password: `${password}`,
           fk_roles_user: req.body.fk_roles_user || 1,
-          is_active: true,
+          is_active: req.body.is_active || true,
         })
         .then(_ => res.status(204).send())
         .catch(err => res.status(400).json(err))
     })
   }
+
+
+  // const update = (req, res) => {
+  //   if(typeof req.body.mail === 'undefined')
+  //   if(typeof req.body.password === 'undefined')
+  //   if(typeof req.body.fk_roles_user === 'undefined')
+  // }
   return { save }
 }
 

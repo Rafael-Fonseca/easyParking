@@ -55,8 +55,18 @@ export default class Login extends Component {
     .catch(e => showError(e))
   }
 
-  signin = () => {
-    alert('Sign in')
+  signin = async () => {
+    try {
+      const res = await axios.post(`${server}/signin`, {
+        mail: this.state.mail,
+        password: this.state.password
+      })
+
+      axios.defaults.headers.common['Authorization'] = `bearer ${res.data.token}`
+      this.props.navigation.navigate('Home')
+    }catch(err){
+      showError(err)
+    }
   }
 
   render() {

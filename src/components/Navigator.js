@@ -3,12 +3,17 @@
 import {createAppContainer, createSwitchNavigator} from 'react-navigation'
 
 import auth from './screens/Auth'
+import home from './screens/Home'
 
 const mainRoutes = {
     Auth: {
         name: 'Auth',
         screen: auth
     },
+    Home:{
+        name: 'Home',
+        screen: home
+    }
 }
 
 const mainNavigator = createSwitchNavigator(mainRoutes,{
