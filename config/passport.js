@@ -9,14 +9,14 @@ module.exports = app => {
         secretOrKey: authSecret,
         jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
     }
-    //TODO: alterar nome dos parâmetros que correspondem ao nome da tabela e dos campos no DB
+
     const strategy = new Strategy(params, (payload, done) => {
-        app.db('users')
-            .where({id: payload.id})
+        app.db('tb_users')
+            .where({pk_user: payload.pk_user})
             .first()
             .then(user => {
                 if(user){
-                    done(null, {id: user.id, email: user.email})
+                    done(null, {pk_user: user.pk_user, mail: user.mail})
                 } else {
                     done(null, false)
                 }

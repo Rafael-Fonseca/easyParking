@@ -1,4 +1,3 @@
-//TODO: Configurar a autenticação do usuário
 const { authSecret } = require('../.env')
 const jwt = require('jwt-simple')
 const bcrypt = require('bcryptjs')
@@ -19,7 +18,7 @@ module.exports = app => {
           return res.status(401).send()
         }
         
-        const payload = { id: user.id }
+        const payload = { pk_user: user.pk_user }
         res.json({
           name: user.name,
           mail: user.mail,
