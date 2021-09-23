@@ -7,9 +7,9 @@ module.exports = app => {
   app.post('/signup', app.api.user.save)
   app.post('/signin', app.api.auth.signin)
 
-  // app.route('/update_user')
-  //   .all(app.config.passport.authenticate())
-    // .put(app.api.user.update)
+  app.route('/update_user')
+    .all(app.config.passport.authenticate())
+    .put(app.api.user.update)
   //     .post(app.api.task.save)
 
   // app.route('/tasks/:id')

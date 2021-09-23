@@ -1,19 +1,7 @@
-import app from "../index"
+import app, { response } from "../index"
 import supertest from "supertest"
 let request = supertest(app)
 
-/*
-TODO: Diretório para guardar os testes desta aplicação
-Exemplo de sintaxe:
-describe("Categoria", () => {
-
-    test("Descrição", () => {
-        let recebi_do_sistema = 0
-        expect(recebi_do_sistema).toEqual('O que eu espero receber')
-    })
-
-})
-*/
 //Vamos utilizar o timestamp para assegurar que os valores adicionados
 //ao banco de dados sejam únicos, evitando erros por chaves repetidas
 pass_time = () => {
@@ -41,12 +29,17 @@ create_user_data = () => {
   return user_data
 }
 
+admin = {
+  mail: 'Raf',
+  password: '123'
+}
+
 
 //TODO: Teste auth.js
 describe("Test auth.js", () => {
 
   test("Deve retornar statusCode 200 se receber credenciais que confiram com o BD", () => {
-    let credentials = {mail: 'Raf', password: '123' }
+    let credentials = { mail: 'Raf', password: '123' }
 
     return request.post("/signin")
       .send(credentials)
@@ -57,7 +50,7 @@ describe("Test auth.js", () => {
 
   test("Deve retornar statusCode 400 se o campo e-mail ou senha não for informado.", () => {
     //let credentials = {password: '123' }
-    let credentials = {mail: 'test@mail.com' }
+    let credentials = { mail: 'test@mail.com' }
 
 
     return request.post("/signin")
@@ -68,7 +61,7 @@ describe("Test auth.js", () => {
   })
 
   test("Deve retornar statusCode 401 se o campo senha estiver incorreto.", () => {
-    let credentials = {mail: 'Raf', password: '1234' }
+    let credentials = { mail: 'Raf', password: '1234' }
 
     return request.post("/signin")
       .send(credentials)
@@ -78,7 +71,7 @@ describe("Test auth.js", () => {
   })
 
   test("Deve retornar statusCode 400 se o campo e-mail informado estiver errado.", () => {
-    let credentials = {mail: 'Rafa', password: '123' }
+    let credentials = { mail: 'Rafa', password: '123' }
 
     return request.post("/signin")
       .send(credentials)
@@ -88,7 +81,7 @@ describe("Test auth.js", () => {
   })
 
   test("Deve retornar statusCode 400 se os campos e-mail e senha informados estiverem errados.", () => {
-    let credentials = {mail: 'Rafa', password: '1234' }
+    let credentials = { mail: 'Rafa', password: '1234' }
 
     return request.post("/signin")
       .send(credentials)
@@ -276,44 +269,63 @@ describe("Test user.js", () => {
     return request.post('/signup').send(data_post)
       .then(res => expect(res.statusCode).toEqual(204))
   })
+})
+
+describe('Test user.js autenticado', () => {
+
+  login = async function pre_previus_auth() {
+    let credentials = { mail: 'Raf', password: '123' }
+    resp = await Promise.resolve(request.post("/signin").send(credentials))
+    // console.log('como assim não existe?', resp.body.token)
+    return resp.body.token
+  }
 
   test("Deve retornar statusCode 200 se conseguir alterar um user existente no BD", () => {
     // TODO: O teste
-    let recebi_do_sistema = 0
-    expect(recebi_do_sistema).toEqual('O que eu espero receber')
+    get_token = async function previus_auth(token) {
+      try {
+        token = await login().then(res => console.log('ASYNC - GET TOKEN!!!!! ', res))
+      } catch (err) {
+        token = 'Linha por volta de 294 ' + err
+      }
+      return token
+    }
+    token0 = 'eta'
+    token = get_token(token0).then(res_fim => console.log('OLHA NOIS AKI!!! ', res_fim))
+    expect(token).toEqual(300)
   })
 
-  test("Deve retornar statusCode 200 se conseguir recuperar um user existente no BD", () => {
-    // TODO: O teste
-    let recebi_do_sistema = 0
-    expect(recebi_do_sistema).toEqual('O que eu espero receber')
-  })
+  // test("Deve retornar statusCode 200 se conseguir recuperar um user existente no BD", () => {
+  //   // TODO: O teste
+  //   let recebi_do_sistema = 0
+  //   expect(recebi_do_sistema).toEqual('O que eu espero receber')
+  // })
 
-  test("Deve retornar statusCode 200 se conseguir remover um user no BD", () => {
-    // TODO: O teste
-    let recebi_do_sistema = 0
-    expect(recebi_do_sistema).toEqual('O que eu espero receber')
-  })
+  // test("Deve retornar statusCode 200 se conseguir remover um user no BD", () => {
+  //   // TODO: O teste
+  //   let recebi_do_sistema = 0
+  //   expect(recebi_do_sistema).toEqual('O que eu espero receber')
+  // })
 
-  test("Deve retornar statusCode 400 se não conseguir persistir um user no BD", () => {
-    // TODO: O teste
-    let recebi_do_sistema = 0
-    expect(recebi_do_sistema).toEqual('O que eu espero receber')
-  })
+  // test("Deve retornar statusCode 400 se não conseguir persistir um user no BD", () => {
+  //   // TODO: O teste
+  //   let recebi_do_sistema = 0
+  //   expect(recebi_do_sistema).toEqual('O que eu espero receber')
+  // })
 
-  test("Deve retornar statusCode 400 se não conseguir recuperar um user no BD", () => {
-    // TODO: O teste
-    let recebi_do_sistema = 0
-    expect(recebi_do_sistema).toEqual('O que eu espero receber')
-  })
+  // test("Deve retornar statusCode 400 se não conseguir recuperar um user no BD", () => {
+  //   // TODO: O teste
+  //   let recebi_do_sistema = 0
+  //   expect(recebi_do_sistema).toEqual('O que eu espero receber')
+  // })
 
-  test("Deve retornar statusCode 400 se não conseguir alterar um user no BD", () => {
-    // TODO: O teste
-    let recebi_do_sistema = 0
-    expect(recebi_do_sistema).toEqual('O que eu espero receber')
-  })
-
+  // test("Deve retornar statusCode 400 se não conseguir alterar um user no BD", () => {
+  //   // TODO: O teste
+  //   let recebi_do_sistema = 0
+  //   expect(recebi_do_sistema).toEqual('O que eu espero receber')
+  // })
 })
+// })
 
 //TODO: Teste company.js
 /*
