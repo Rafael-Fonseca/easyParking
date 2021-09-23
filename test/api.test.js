@@ -29,9 +29,15 @@ create_user_data = () => {
   return user_data
 }
 
-admin = {
+credentials_admin = {
   mail: 'Raf',
   password: '123'
+}
+
+login = async function pre_previus_auth(user) {
+  resp = await Promise.resolve(request.post("/signin").send(user))
+  // console.log('como assim não existe?', resp.body.token)
+  return resp.body.token
 }
 
 
@@ -273,26 +279,19 @@ describe("Test user.js", () => {
 
 describe('Test user.js autenticado', () => {
 
-  login = async function pre_previus_auth() {
-    let credentials = { mail: 'Raf', password: '123' }
-    resp = await Promise.resolve(request.post("/signin").send(credentials))
-    // console.log('como assim não existe?', resp.body.token)
-    return resp.body.token
-  }
-
   test("Deve retornar statusCode 200 se conseguir alterar um user existente no BD", () => {
     // TODO: O teste
-    get_token = async function previus_auth(token) {
-      try {
-        token = await login().then(res => console.log('ASYNC - GET TOKEN!!!!! ', res))
-      } catch (err) {
-        token = 'Linha por volta de 294 ' + err
-      }
-      return token
+    update_data = {
+      ...credentials_admin,
+      fk_roles_user: 2
     }
-    token0 = 'eta'
-    token = get_token(token0).then(res_fim => console.log('OLHA NOIS AKI!!! ', res_fim))
-    expect(token).toEqual(300)
+
+    res_token = login(credentials_admin)
+    res_token.then(token => {
+      return request.put('/update_user')
+      .set('Authorization', 'Bearer ' + token)
+      .send(update_data).then(res => expect(res.statusCode).toEqual(204))
+    })
   })
 
   // test("Deve retornar statusCode 200 se conseguir recuperar um user existente no BD", () => {
