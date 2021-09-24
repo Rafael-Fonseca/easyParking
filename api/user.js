@@ -1,6 +1,7 @@
 const bcrypt = require('bcryptjs')
 
 module.exports = app => {
+  table = 'tb_users'
   const obterHash = (password, callback) => {
     bcrypt.genSalt(10, (err, salt) => {
       bcrypt.hash(password, salt, (err, hash) => callback(hash))
@@ -14,18 +15,30 @@ module.exports = app => {
   const save = (req, res) => {
     obterHash(req.body.password, hash => {
       const password = hash
-      app.db('tb_users')
-        .insert({
-          name: `${req.body.name}`,
-          cpf: `${req.body.cpf}`,
-          mail: `${req.body.mail}`,
-          password: `${password}`,
-          fk_roles_user: req.body.fk_roles_user || 1,
-          is_active: req.body.is_active || true,
-        })
+      app.api.dbHelper.insert(table, {
+        name: `${req.body.name}`,
+        cpf: `${req.body.cpf}`,
+        mail: `${req.body.mail}`,
+        password: `${password}`,
+        fk_roles_user: req.body.fk_roles_user || 1,
+        is_active: req.body.is_active || true,
+      })
         .then(_ => res.status(204).send())
         .catch(err => res.status(400).json(err))
     })
+  }
+
+
+  const update = (req, res, next) => {
+    try {
+      if (req === undefined)
+        return res.status(404).send()
+      else
+        return res.status(204).send()
+    } catch (e) {
+      next(e)
+    }
+
   }
 
 
@@ -34,7 +47,7 @@ module.exports = app => {
   //   if(typeof req.body.password === 'undefined')
   //   if(typeof req.body.fk_roles_user === 'undefined')
   // }
-  return { save }
+  return { save, update }
 }
 
 
