@@ -12,9 +12,9 @@ module.exports = app => {
     .put(app.api.user.update)
   //     .post(app.api.task.save)
 
-  // app.route('/roles_create')
-  //   .all(app.config.passport.authenticate())
-  //   .post(app.api.role.save)
+  app.route('/roles_create')
+    .all(app.config.passport.authenticate())
+    .post(app.api.role.save)
 
   // ------------- EXEMPLO!!!!!!!!!!!
   // app.route('/tasks/:id/toggle')

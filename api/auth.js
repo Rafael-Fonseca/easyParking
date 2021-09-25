@@ -11,7 +11,7 @@ module.exports = app => {
       }
 
       const user = await app.api.dbHelper
-        .select('tb_users', { mail: req.body.mail }, 'first')
+        .select({table: 'tb_users', where: { mail: req.body.mail }, mode:'first'})
 
       if (user) {
         bcrypt.compare(req.body.password, user.password, (err, isMatch) => {
