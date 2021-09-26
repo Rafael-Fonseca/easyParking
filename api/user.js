@@ -12,7 +12,7 @@ module.exports = app => {
   //      genSalt(10 saltos, arrow function que em caso de erro é realizada)
   // dentro da arrow function tem um .hash (dado a ser encriptado, saltos, progresso, erro(passou callback))
 
-  const save = (req, res) => {
+  const create = (req, res) => {
     obterHash(req.body.password, hash => {
       const password = hash
       app.api.dbHelper.insert(table, {
@@ -38,7 +38,6 @@ module.exports = app => {
     } catch (e) {
       next(e)
     }
-
   }
 
 
@@ -47,7 +46,7 @@ module.exports = app => {
   //   if(typeof req.body.password === 'undefined')
   //   if(typeof req.body.fk_roles_user === 'undefined')
   // }
-  return { save, update }
+  return { create, update }
 }
 
 
@@ -55,9 +54,6 @@ module.exports = app => {
 
 
 //TODO: Codificar crud
-// save = () => {
-//     return {'sucesso': true}
-// }
 
 
 //TODO: Validar dados enviados

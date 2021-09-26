@@ -1,37 +1,87 @@
-const { authSecret } = require('../.env')
-var jwt = require('jwt-simple')
-
 //TODO: Codificar crud
 module.exports = app => {
+  //Definição de variáveis globais desta rota
   default_table = 'td_roles'
-  default_pk_role_admin = 3
 
-  const save = async (req, res, next) => {
+
+  //Definição das funções desta rota
+  const create = async (req, res, next) => {
     try {
 
-      var payload = await jwt.decode(req.get('Authorization').slice(7), authSecret)
-      result = await app.api.dbHelper.select({
-        table: 'tb_users',
-        what: ['fk_roles_user'],
-        where: { pk_user: payload.pk_user },
-        mode: 'first'
-      })
-      if (result.fk_roles_user === default_pk_role_admin) {
-        //TODO: Paramos aqui o código está entrando até aqui.
-        console.log('role:', result.fk_roles_user)
-        res.status(202).send()
-      } else {
-        console.log('role\n:', result)
-        res.status(203).send()
-      }
+      if (await app.api.authHelper.is_user('admin', req, res, next)) {
+        app.api.dbHelper.insert(default_table, {
+          role: req.body.role,
+          discount: req.body.discount,
+          is_active: true
+        })
+        res.status(201).send()
 
+      } else {
+        res.status(400).send('Necessário acesso de administrador.')
+      }
     } catch (e) {
-      // next(e)
-      // console.log('\n\ntoken:!!!!!!!!!!!!!!!\n\n', req_pk_user)
-      res.status(400).send()
+      next(e)
     }
   }
 
 
-  return { save }
+  const read = async (req, res, next) => {
+    try{
+      if (await app.api.authHelper.is_user('admin', req, res, next)) {
+        await app.api.dbHelper.select(req.body)
+        res.status(200).send()
+      } else {
+        res.status(400).send('Necessário acesso de administrador.')
+      }
+
+    }catch(e){
+      console.log('\n\nOLHAAA O EEEEEERROOOO!!!!\n\n role.js read', e)
+      next(e)
+    }
+  }
+
+
+  const update = async (req, res, next) => {
+    try {
+      let update_data_roles = {}
+      if (req.body.role !== undefined)
+        update_data_roles.role = req.body.role
+      if (req.body.discount !== undefined)
+        update_data_roles.discount = req.body.discount
+      if (req.body.is_active !== undefined)
+        update_data_roles.is_active = req.body.is_active
+
+      const where = {pk_role: req.body.pk_role}
+
+      if (await app.api.authHelper.is_user('admin', req, res, next)) {
+        app.api.dbHelper.update('td_roles', update_data_roles, where)
+        res.status(200).send()
+      } else {
+        res.status(400).send('Necessário acesso de administrador.')
+      }
+    } catch (e) {
+      next(e)
+    }
+  }
+
+
+  const del = async (req, res, next) => {
+    try {
+
+      let delete_data_roles = {is_active: false}
+      const where = {pk_role: req.body.pk_role}
+
+      if (await app.api.authHelper.is_user('admin', req, res, next)) {
+        app.api.dbHelper.update('td_roles', delete_data_roles, where)
+        res.status(200).send()
+      } else {
+        res.status(400).send('Necessário acesso de administrador.')
+      }
+    } catch (e) {
+      next(e)
+    }
+  }
+
+
+  return { create, update, read, del }
 }
