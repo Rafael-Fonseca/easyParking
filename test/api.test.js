@@ -32,12 +32,23 @@ create_user_data = () => {
 }
 
 credentials_admin = {
+  // name:'adminTest',
+  // cpf:'cpfAdmin',
   mail: 'Raf',
   password: '123'
 }
 
 credentials_user = {
+  // name:'userTest',
+  // cpf:'cpfUser',
   mail: 'user@mail',
+  password: '123'
+}
+
+credentials_employee = {
+  // name:'employeeTest',
+  // cpf:'cpfEmploy',
+  mail: 'employee@mail',
   password: '123'
 }
 
@@ -45,7 +56,7 @@ login = async function (user) {
   return request.post("/signin").send(user)
 }
 
-//TODO: Teste role.js
+/*
 describe("Test role.js", () => {
 
   test("Deve retornar statusCode 201 se conseguir persistir uma nova 'role' no BD", () => {
@@ -134,9 +145,9 @@ describe("Test role.js", () => {
   })
 
 })
-// })
+*/
 
-
+/*
 describe("Test auth.js", () => {
 
   test("Deve retornar statusCode 200 se receber credenciais que confiram com o BD", () => {
@@ -180,9 +191,11 @@ describe("Test auth.js", () => {
       expect(res.statusCode).toEqual(400)
     })
   })
+
 })
+*/
 
-
+/*
 describe("Test user.js", () => {
 
   test("Deve retornar statusCode 204 se conseguir persistir um novo user no BD", () => {
@@ -209,20 +222,27 @@ describe("Test user.js", () => {
       .then(res => expect(res.statusCode).toEqual(204))
   })
 })
+*/
 
+/*
 describe('Test user.js autenticado', () => {
 
-  test("Deve retornar statusCode 200 se conseguir alterar um user existente no BD", () => {
+  test("Deve retornar statusCode 200 se um admin conseguir alterar um user no BD", () => {
     // TODO: A rota /user_update tem que efetifamente realizar o update
+    // TODO: QUANDO REFAZER O BD VAI DAR ERRO, ALTERAR O PK_USER
     update_data = {
-      ...credentials_admin,
-      fk_roles_user: 2
+      target_pk_user: 60,
+      // name: 'update_user_employee',
+      // mail: 'não vou alterar pq é unique',
+      fk_roles_user: 2,
+      // cpf: 'Por enquanto não vou permitir esta alteração',
+      // is_active: true,
     }
 
-    return login(update_data).then(res => {
+    return login(credentials_admin).then(res => {
       request.put('/user_update')
         .set('Authorization', 'Bearer ' + res.body.token)
-        .send(update_data).then(resp => expect(resp.statusCode).toEqual(204))
+        .send(update_data).then(resp => expect(resp.statusCode).toEqual(200))
     })
     /***************************************************************************
     **                     Deste jeito também funciona                        **
@@ -233,5 +253,292 @@ describe('Test user.js autenticado', () => {
     **    .set('Authorization', 'Bearer ' + res.body.token)                   **
     **    .send(update_data).then(resp => expect(resp.statusCode).toEqual(204))*
     ***************************************************************************/
+
+/* //<<<<<<<< Dá problema por conta do comentário acima
   })
+
+  test("Deve retornar statusCode 400 se um admin tentar alterar o nome de algum user no BD", () => {
+    // TODO: A rota /user_update tem que efetifamente realizar o update
+    // TODO: QUANDO REFAZER O BD VAI DAR ERRO, ALTERAR O PK_USER
+    update_data = {
+      target_pk_user: 60,
+      name: 'update_user_employee',
+      fk_roles_user: 3,
+    }
+
+    return login(credentials_admin).then(res => {
+      request.put('/user_update')
+        .set('Authorization', 'Bearer ' + res.body.token)
+        .send(update_data).then(resp => expect(resp.statusCode).toEqual(400))
+    })
+  })
+
+  test("Deve retornar statusCode 400 se um admin tentar alterar a senha de algum user no BD", () => {
+    // TODO: A rota /user_update tem que efetifamente realizar o update
+    // TODO: QUANDO REFAZER O BD VAI DAR ERRO, ALTERAR O PK_USER
+    update_data = {
+      target_pk_user: 60,
+      password: 'not_allowed',
+      fk_roles_user: 3,
+    }
+
+    return login(credentials_admin).then(res => {
+      request.put('/user_update')
+        .set('Authorization', 'Bearer ' + res.body.token)
+        .send(update_data).then(resp => expect(resp.statusCode).toEqual(400))
+    })
+  })
+
+  test("Deve retornar statusCode 400 se um admin tentar alterar o email de algum user no BD", () => {
+    // TODO: A rota /user_update tem que efetifamente realizar o update
+    // TODO: QUANDO REFAZER O BD VAI DAR ERRO, ALTERAR O PK_USER
+    update_data = {
+      target_pk_user: 60,
+      mail: 'not_allowed@mail',
+      fk_roles_user: 3,
+    }
+
+    return login(credentials_admin).then(res => {
+      request.put('/user_update')
+        .set('Authorization', 'Bearer ' + res.body.token)
+        .send(update_data).then(resp => expect(resp.statusCode).toEqual(400))
+    })
+  })
+
+  test("Deve retornar statusCode 400 se um admin tentar alterar o cpf de algum user no BD", () => {
+    // TODO: A rota /user_update tem que efetifamente realizar o update
+    // TODO: QUANDO REFAZER O BD VAI DAR ERRO, ALTERAR O PK_USER
+    update_data = {
+      target_pk_user: 60,
+      fk_roles_user: 3,
+      cpf: '999999888',
+    }
+
+    return login(credentials_admin).then(res => {
+      request.put('/user_update')
+        .set('Authorization', 'Bearer ' + res.body.token)
+        .send(update_data).then(resp => expect(resp.statusCode).toEqual(400))
+    })
+  })
+
+  test("Deve retornar statusCode 400 se um admin tentar alterar o is_active de algum user no BD", () => {
+    // TODO: A rota /user_update tem que efetifamente realizar o update
+    // TODO: QUANDO REFAZER O BD VAI DAR ERRO, ALTERAR O PK_USER
+    update_data = {
+      target_pk_user: 60,
+      fk_roles_user: 3,
+      is_active: false,
+    }
+
+    return login(credentials_admin).then(res => {
+      request.put('/user_update')
+        .set('Authorization', 'Bearer ' + res.body.token)
+        .send(update_data).then(resp => expect(resp.statusCode).toEqual(400))
+    })
+  })
+
+  test("Deve retornar statusCode 400 se um admin tentar alterar o nome de algum empregado no BD", () => {
+    // TODO: A rota /user_update tem que efetifamente realizar o update
+    // TODO: QUANDO REFAZER O BD VAI DAR ERRO, ALTERAR O PK_USER
+    update_data = {
+      target_pk_user: 60,
+      name: 'update_user_employee',
+      fk_roles_user: 3,
+    }
+
+    return login(credentials_admin).then(res => {
+      request.put('/user_update')
+        .set('Authorization', 'Bearer ' + res.body.token)
+        .send(update_data).then(resp => expect(resp.statusCode).toEqual(400))
+    })
+  })
+
+  test("Deve retornar statusCode 400 se um admin tentar alterar a senha de algum empregado no BD", () => {
+    // TODO: A rota /user_update tem que efetifamente realizar o update
+    // TODO: QUANDO REFAZER O BD VAI DAR ERRO, ALTERAR O PK_USER
+    update_data = {
+      target_pk_user: 60,
+      password: 'not_allowed',
+      fk_roles_user: 3,
+    }
+
+    return login(credentials_admin).then(res => {
+      request.put('/user_update')
+        .set('Authorization', 'Bearer ' + res.body.token)
+        .send(update_data).then(resp => expect(resp.statusCode).toEqual(400))
+    })
+  })
+
+  test("Deve retornar statusCode 400 se um admin tentar alterar o email de algum empregado no BD", () => {
+    // TODO: A rota /user_update tem que efetifamente realizar o update
+    // TODO: QUANDO REFAZER O BD VAI DAR ERRO, ALTERAR O PK_USER
+    update_data = {
+      target_pk_user: 60,
+      mail: 'not_allowed@mail',
+      fk_roles_user: 3,
+    }
+
+    return login(credentials_admin).then(res => {
+      request.put('/user_update')
+        .set('Authorization', 'Bearer ' + res.body.token)
+        .send(update_data).then(resp => expect(resp.statusCode).toEqual(400))
+    })
+  })
+
+  test("Deve retornar statusCode 400 se um admin tentar alterar o cpf de algum empregado no BD", () => {
+    // TODO: A rota /user_update tem que efetifamente realizar o update
+    // TODO: QUANDO REFAZER O BD VAI DAR ERRO, ALTERAR O PK_USER
+    update_data = {
+      target_pk_user: 60,
+      fk_roles_user: 3,
+      cpf: '999999777',
+    }
+
+    return login(credentials_admin).then(res => {
+      request.put('/user_update')
+        .set('Authorization', 'Bearer ' + res.body.token)
+        .send(update_data).then(resp => expect(resp.statusCode).toEqual(400))
+    })
+  })
+
+  test("Deve retornar statusCode 400 se um admin tentar alterar o is_active de algum empregado no BD", () => {
+    // TODO: A rota /user_update tem que efetifamente realizar o update
+    // TODO: QUANDO REFAZER O BD VAI DAR ERRO, ALTERAR O PK_USER
+    update_data = {
+      target_pk_user: 60,
+      fk_roles_user: 3,
+      is_active: false,
+    }
+
+    return login(credentials_admin).then(res => {
+      request.put('/user_update')
+        .set('Authorization', 'Bearer ' + res.body.token)
+        .send(update_data).then(resp => expect(resp.statusCode).toEqual(400))
+    })
+  })
+
+  test("Deve retornar statusCode 200 se um user conseguir recuperar seus dados no BD", () => {
+    return login(credentials_user).then(res => {
+      request.post('/user_read')
+        .set('Authorization', 'Bearer ' + res.body.token)
+        .send().then(res => expect(res.statusCode).toEqual(200))
+    })
+  })
+
+  test("Deve retornar statusCode 400 se um user tentar recuperar dados de outro user no BD", () => {
+    let target_user = { target_pk_user: 60 }
+    return login(credentials_user).then(res => {
+      request.post('/user_read')
+        .set('Authorization', 'Bearer ' + res.body.token)
+        .send(target_user).then(res => expect(res.statusCode).toEqual(400))
+    })
+  })
+
+  test("Deve retornar statusCode 400 se um empregado tentar recuperar dados de outro user no BD", () => {
+    let target_user = { target_pk_user: 60 }
+    return login(credentials_employee).then(res => {
+      request.post('/user_read')
+        .set('Authorization', 'Bearer ' + res.body.token)
+        .send(target_user).then(res => expect(res.statusCode).toEqual(400))
+    })
+  })
+
+  test("Deve retornar statusCode 200 se um admin conseguir recuperar todos os usuários existentes no BD", () => {
+    return login(credentials_admin).then(res => {
+      request.post('/user_read')
+        .set('Authorization', 'Bearer ' + res.body.token)
+        .send().then(res => expect(res.statusCode).toEqual(200))
+    })
+  })
+
+  test("Deve retornar statusCode 200 se um user conseguir se remover do BD", () => {
+    return login(credentials_user).then(res => {
+      request.post('/user_delete')
+        .set('Authorization', 'Bearer ' + res.body.token)
+        .send().then(res => expect(res.statusCode).toEqual(200))
+    })
+  })
+
+  test("Deve retornar statusCode 200 se um employee conseguir se remover do BD", () => {
+    return login(credentials_employee).then(res => {
+      request.post('/user_delete')
+        .set('Authorization', 'Bearer ' + res.body.token)
+        .send().then(res => expect(res.statusCode).toEqual(200))
+    })
+  })
+
+  test("Deve retornar statusCode 200 se um admin conseguir se remover do BD", () => {
+    return login(credentials_admin).then(res => {
+      request.post('/user_delete')
+        .set('Authorization', 'Bearer ' + res.body.token)
+        .send().then(res => expect(res.statusCode).toEqual(200))
+    })
+  })
+
+  test("Deve retornar statusCode 400 se um user tentar remover outro user do BD", () => {
+    return login(credentials_user).then(res => {
+      request.post('/user_delete')
+        .set('Authorization', 'Bearer ' + res.body.token)
+        .send({ target_pk_user: 30 }).then(res => expect(res.statusCode).toEqual(400))
+    })
+  })
+
+  test("Deve retornar statusCode 200 se um admin conseguir remover outro user no BD", () => {
+    return login(credentials_admin).then(res => {
+      request.post('/user_delete')
+        .set('Authorization', 'Bearer ' + res.body.token)
+        .send({ target_pk_user: 588 }).then(res => expect(res.statusCode).toEqual(200))
+    })
+  })
+
+  test("Deve retornar statusCode 400 se não conseguir persistir um user no BD", () => {
+    incomplete_credentials = {name:'incompleto', mail:'incompleto@mail'}
+    return request.post('/signup').send(incomplete_credentials).then(res => {
+      expect(res.statusCode).toEqual(400)
+    })
+  })
+
+  // test("Deve retornar statusCode 400 se não conseguir recuperar um user no BD", () => {
+  //   // TODO: Fazer este teste, quando eu tiver certeza do retorno das operações
+  //   let recebi_do_sistema = 0
+  //   expect(recebi_do_sistema).toEqual('O que eu espero receber')
+  // })
+
+})
+*/
+
+
+//TODO: Teste card.js
+describe("Test card.js", () => {
+
+    test("Deve retornar statusCode 200 se conseguir persistir um novo cartão no BD", () => {
+        // TODO: O teste
+        let recebi_do_sistema = 0
+        expect(recebi_do_sistema).toEqual('O que eu espero receber')
+    })
+
+    test("Deve retornar statusCode 200 se conseguir alterar um cartão existente no BD", () => {
+        // TODO: O teste
+        let recebi_do_sistema = 0
+        expect(recebi_do_sistema).toEqual('O que eu espero receber')
+    })
+
+    test("Deve retornar statusCode 200 se conseguir recuperar um cartão existente no BD", () => {
+        // TODO: O teste
+        let recebi_do_sistema = 0
+        expect(recebi_do_sistema).toEqual('O que eu espero receber')
+    })
+
+    test("Deve retornar statusCode 200 se conseguir remover um cartão no BD", () => {
+        // TODO: O teste
+        let recebi_do_sistema = 0
+        expect(recebi_do_sistema).toEqual('O que eu espero receber')
+    })
+
+    test("Deve retornar statusCode 400 se não conseguir persistir um cartão no BD", () => {
+        // TODO: O teste
+        let recebi_do_sistema = 0
+        expect(recebi_do_sistema).toEqual('O que eu espero receber')
+    })
+
 })

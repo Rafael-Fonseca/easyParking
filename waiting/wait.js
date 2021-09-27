@@ -1,39 +1,3 @@
-//TODO: Teste card.js
-/*
-describe("Test card.js", () => {
-
-    test("Deve retornar statusCode 200 se conseguir persistir um novo cartão no BD", () => {
-        // TODO: O teste
-        let recebi_do_sistema = 0
-        expect(recebi_do_sistema).toEqual('O que eu espero receber')
-    })
-
-    test("Deve retornar statusCode 200 se conseguir alterar um cartão existente no BD", () => {
-        // TODO: O teste
-        let recebi_do_sistema = 0
-        expect(recebi_do_sistema).toEqual('O que eu espero receber')
-    })
-
-    test("Deve retornar statusCode 200 se conseguir recuperar um cartão existente no BD", () => {
-        // TODO: O teste
-        let recebi_do_sistema = 0
-        expect(recebi_do_sistema).toEqual('O que eu espero receber')
-    })
-
-    test("Deve retornar statusCode 200 se conseguir remover um cartão no BD", () => {
-        // TODO: O teste
-        let recebi_do_sistema = 0
-        expect(recebi_do_sistema).toEqual('O que eu espero receber')
-    })
-
-    test("Deve retornar statusCode 400 se não conseguir persistir um cartão no BD", () => {
-        // TODO: O teste
-        let recebi_do_sistema = 0
-        expect(recebi_do_sistema).toEqual('O que eu espero receber')
-    })
-
-})
-*/
 //TODO: Teste offer.js
 /*
 describe("Test offer.js", () => {
@@ -149,44 +113,6 @@ describe("Test ticket.js", () => {
 
 })
 */
-
-//TODO: Teste user.js
-/*
-
-*/
-
-// test("Deve retornar statusCode 200 se conseguir recuperar um user existente no BD", () => {
-  //   // TODO: O teste
-  //   let recebi_do_sistema = 0
-  //   expect(recebi_do_sistema).toEqual('O que eu espero receber')
-  // })
-
-  // test("Deve retornar statusCode 200 se conseguir remover um user no BD", () => {
-  //   // TODO: O teste
-  //   let recebi_do_sistema = 0
-  //   expect(recebi_do_sistema).toEqual('O que eu espero receber')
-  // })
-
-  // test("Deve retornar statusCode 400 se não conseguir persistir um user no BD", () => {
-  //   // TODO: O teste
-  //   let recebi_do_sistema = 0
-  //   expect(recebi_do_sistema).toEqual('O que eu espero receber')
-  // })
-
-  // test("Deve retornar statusCode 400 se não conseguir recuperar um user no BD", () => {
-  //   // TODO: O teste
-  //   let recebi_do_sistema = 0
-  //   expect(recebi_do_sistema).toEqual('O que eu espero receber')
-  // })
-
-  // test("Deve retornar statusCode 400 se não conseguir alterar um user no BD", () => {
-  //   // TODO: O teste
-  //   let recebi_do_sistema = 0
-  //   expect(recebi_do_sistema).toEqual('O que eu espero receber')
-  // })
-// })
-// })
-
 
 //TODO: Teste company.js
 /*
