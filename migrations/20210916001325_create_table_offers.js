@@ -5,7 +5,7 @@ exports.up = function(knex) {
         table.integer('fk_users_offers').notNull().references('pk_user').inTable('tb_users')
         table.timestamp('tme_begin', options={useTz: false}).notNull()
         table.timestamp('tme_end', options={useTz: false}).notNull()
-        table.binary('img').notNull()
+        table.binary('img')//.notNull()
         table.boolean('is_active').notNull()
     })
 };

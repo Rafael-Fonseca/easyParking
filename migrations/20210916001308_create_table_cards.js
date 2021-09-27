@@ -7,7 +7,6 @@ exports.up = function(knex) {
         table.string('validity', 7).notNull()
         table.boolean('credit').notNull()
         table.string('nme_cd', 50).notNull()
-        table.boolean('is_active').notNull()
     })
 };
 
