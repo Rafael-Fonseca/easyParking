@@ -1,7 +1,7 @@
 //TODO: Codificar crud
 module.exports = app => {
   //Definição de variáveis globais desta rota
-  default_table = 'td_roles'
+  table_roles = 'td_roles'
 
 
   //Definição das funções desta rota
@@ -9,7 +9,7 @@ module.exports = app => {
     try {
 
       if (await app.api.authHelper.is_user('admin', req, res, next)) {
-        app.api.dbHelper.insert(default_table, {
+        app.api.dbHelper.insert(table_roles, {
           role: req.body.role,
           discount: req.body.discount,
           is_active: true
@@ -42,6 +42,7 @@ module.exports = app => {
 
 
   const update = async (req, res, next) => {
+    //Prepara objeto que indica o que será alterado
     try {
       let update_data_roles = {}
       if (req.body.role !== undefined)
@@ -50,9 +51,11 @@ module.exports = app => {
         update_data_roles.discount = req.body.discount
       if (req.body.is_active !== undefined)
         update_data_roles.is_active = req.body.is_active
-
+      
+      //Prepara objeto que representa a cláusula where
       const where = {pk_role: req.body.pk_role}
 
+      // Se o usuário for admin, altera, do contrário, nega a requisição.
       if (await app.api.authHelper.is_user('admin', req, res, next)) {
         app.api.dbHelper.update('td_roles', update_data_roles, where)
         res.status(200).send()

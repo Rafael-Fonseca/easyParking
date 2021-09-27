@@ -11,17 +11,27 @@ module.exports = app => {
     ** mode: str que representa o modo da consulta    **
     ***************************************************/
     try {
-      if (kwargs.what === undefined) {
-        if (kwargs.mode === 'first')
-          return await app.db(kwargs.table).where(kwargs.where).first()
-        return await app.db(kwargs.table).where(kwargs.where)
+      if (kwargs.where !== undefined) {
+        if (kwargs.what === undefined) {
+          if (kwargs.mode === 'first')
+            return await app.db(kwargs.table).where(kwargs.where).first()
+          return await app.db(kwargs.table).where(kwargs.where)
 
-      } else {
-        if (kwargs.mode === 'first')
-          return await app.db(kwargs.table).where(kwargs.where).select(...kwargs.what).first()
-        return await app.db(kwargs.table).where(kwargs.where).select(...kwargs.what)
+        } else {
+          if (kwargs.mode === 'first')
+            return await app.db(kwargs.table).where(kwargs.where).select(...kwargs.what).first()
+          return await app.db(kwargs.table).where(kwargs.where).select(...kwargs.what)
 
+        }
+
+      }else{ // Where não foi definido, quero todos os resultados
+        if (kwargs.what === undefined) {
+          return await app.db(kwargs.table)
+        }else{
+          return await app.db(kwargs.table).select(...kwargs.what)
+        }
       }
+
 
     } catch (err) {
       console.log('\n\nOLHAAA O EEEEEERROOOO!!!!\n\nSelect DbHelper\n\n', kwargs)
