@@ -1,4 +1,3 @@
-
 module.exports = app => {
 
   async function select(kwargs) {
@@ -100,6 +99,13 @@ module.exports = app => {
     }
   }
 
+  async function del(table, where) {
+    try{
+      return await app.db(table).where(where).del()
+    }catch (e){
+      console.log(e)
+    }
+  }
 
-  return { select, insert, sel_innerjoin, update }
+  return { select, insert, sel_innerjoin, update, del}
 }

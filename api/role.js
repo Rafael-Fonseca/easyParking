@@ -1,4 +1,3 @@
-//TODO: Codificar crud
 module.exports = app => {
   //Definição de variáveis globais desta rota
   table_roles = 'td_roles'
@@ -86,5 +85,5 @@ module.exports = app => {
   }
 
 
-  return { create, update, read, del }
+  return { create, read, update, del }
 }
