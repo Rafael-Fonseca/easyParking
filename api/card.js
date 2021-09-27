@@ -1,1 +1,153 @@
-//TODO: Codificar crud
+module.exports = app => {
+  //Definição de variáveis globais desta rota
+  table_cards = 'tb_cards'
+
+  //Definição das funções desta rota
+  const card_from_user = async function (card_pk, pk_user) {
+    try {
+      let kwargs = {
+        table: table_cards,
+        what: ['fk_users_card'],
+        where: { pk_card: card_pk },
+        mode: 'first'
+      }
+      result = await app.api.dbHelper.select(kwargs)
+      return (result.fk_users_card === pk_user)
+
+    } catch (e) {
+      console.log('\n\nOLHAAA O EEEEEERROOOO!!!!\n\card.js card_from_user\n\n', e)
+    }
+  }
+
+  const create = async (req, res, next) => {
+
+    try {
+
+      if ( //TODOS OS CAMPOS ESTÃO PREENCHIDOS?
+        req.body.num_cd !== undefined &&
+        req.body.nme_cd_holder !== undefined &&
+        req.body.validity !== undefined &&
+        req.body.credit !== undefined) {
+
+        //CAPTURA PK DO REQUERENTE
+        const pk_requester = app.api.authHelper.get_pk_user(req)
+
+        //MONTA OBJETO A SER INSERIDO NO BD
+        const card_data = {
+          fk_users_card: pk_requester,
+          num_cd: `${req.body.num_cd}`,
+          nme_cd_holder: `${req.body.nme_cd_holder}`,
+          validity: `${req.body.validity}`,
+          credit: `${req.body.credit}`,
+          nme_cd: req.body.nme_cd || req.body.num_cd.slice(-4),
+        }
+
+        // MANDA INSERIR E RESPONDE A REQUISIÇÃO
+        app.api.dbHelper.insert(table_cards, card_data)
+          .then(_ => res.status(204).send())
+          .catch(err => res.status(400).json(err))
+
+      } else { // FALTOU CAMPO OBRIGATÓRIO, RECUSA A REQUISIÇÃO
+        res.status(400).send('Existem campos obrigatórios não preenchidos.')
+      }
+
+    } catch (e) {
+      console.log('\n\nEEEEEEERRRRROOOOO!!!\n\ncard.js - create\t', e)
+      next(e)
+    }
+  }
+
+  const read = async (req, res, next) => {
+    try {
+      // DESCUBRA QUEM É O REQUISITANTE
+      pk_requester = app.api.authHelper.get_pk_user(req)
+
+      //MONTAR PARÂMETRO DO SELECT
+      let kwargs = {
+        table: table_cards,
+        where: { fk_users_card: pk_requester }
+      }
+
+      //DEVOLVA TODOS OS CARTÕES DESTE REQUISITANTE
+      await app.api.dbHelper.select(kwargs)
+      res.status(200).send()
+
+    } catch (e) {
+      console.log('\n\nEEEEEEERRRRROOOOO!!!\n\ncard.js - read\t', e)
+      res.status(400).send()
+      // next(e)
+    }
+  }
+
+  const update = async (req, res, next) => {
+    try {
+
+      //DESCUBRA QUEM É O REQUISITANTE
+      pk_requester = app.api.authHelper.get_pk_user(req)
+
+      //SE TARGET_PK_CARD POSSUI FK_USERS_CARD === PK_REQUESTER DBHELPER(cardFromUser)
+      if (await card_from_user(req.body.pk_card, pk_requester)) {
+
+        //INICIO CONSTRUÇÃO update_data - Este objeto indica o que será alterado
+        let update_data = {}
+        if (req.body.num_cd !== undefined)
+          update_data.num_cd = req.body.num_cd
+
+        if (req.body.nme_cd_holder !== undefined)
+          update_data.nme_cd_holder = req.body.nme_cd_holder
+
+        if (req.body.validity !== undefined)
+          update_data.validity = req.body.validity
+
+        if (req.body.credit !== undefined)
+          update_data.credit = req.body.credit
+
+        if (req.body.nme_cd !== undefined ||
+          req.body.num_cd !== undefined)
+          update_data.nme_cd = req.body.nme_cd || req.body.num_cd.slice(-4)
+        // FIM DA CONSTRUÇÃO update_data
+
+        let where = { pk_card: req.body.pk_card }
+
+        //REALIZA A ALTERAÇÃO, E INFORME QUE A REQUISIÇÃO FOI ATENDIDA
+        app.api.dbHelper.update(table_cards, update_data, where)
+        res.status(200).send()
+
+      } else {
+        
+        //REJEITE ESTA REQUISIÇÃO, APENAS O DONO DO CARTÃO PODE REALIZAR ALTERAÇÕES
+        res.status(400).send('Apenas o dono do cartão pode realizar esta operação')
+      }
+    } catch (e) {
+      console.log('\n\nEEEEEEERRRRROOOOO!!!\n\ncard.js - update\n\n', e)
+      next(e)
+    }
+  }
+
+  const del = async (req, res, next) => {
+    
+    try {
+
+      //DESCOBRIR O REQUERENTE
+      pk_requester = app.api.authHelper.get_pk_user(req)
+
+      //CONFERIR SE O CARTÃO A SER DELETADO É DO REQUERENTE
+      if (await card_from_user(req.body.pk_card, pk_requester)) {
+        
+        //SE SIM, DELETE E INFORME QUE A REQUISIÇÃO FOI ACEITA
+        app.api.dbHelper.del(table_cards, {pk_card: req.body.pk_card})
+        res.status(200).send()
+
+      }else {
+        //SE NÃO, NEGUE A REQUISIÇÃO
+        res.status(400).send('Apenas o dono do cartão pode realizar esta ação.')
+      }
+
+    } catch (e) {
+      console.log('\n\nEEEEEEERRRRROOOOO!!!\n\ncard.js - del\t', e)
+      next(e)
+    }
+  }
+
+  return { create, read, update, del }
+}

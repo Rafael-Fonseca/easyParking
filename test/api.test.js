@@ -34,7 +34,7 @@ create_user_data = () => {
 credentials_admin = {
   // name:'adminTest',
   // cpf:'cpfAdmin',
-  mail: 'Raf',
+  mail: 'admin@mail',
   password: '123'
 }
 
@@ -201,6 +201,11 @@ describe("Test user.js", () => {
   test("Deve retornar statusCode 204 se conseguir persistir um novo user no BD", () => {
     setInterval(pass_time, 1000)
     data_post = create_user_data()
+    // data_post.name = 'userTest'
+    // data_post.cpf = 'cpfUser'
+    // data_post.mail = 'user@mail'
+    // data_post.password = '123'
+    data_post.fk_roles_user = 1
     return request.post('/signup').send(data_post)
       .then(res => expect(res.statusCode).toEqual(204))
   })
@@ -208,6 +213,10 @@ describe("Test user.js", () => {
   test("Deve retornar statusCode 204 se conseguir persistir um novo empregado no BD", () => {
     setInterval(pass_time, 1000)
     data_post = create_user_data()
+    // data_post.name = 'employeeTest'
+    // data_post.cpf = 'cpfEmploy'
+    // data_post.mail = 'employee@mail'
+    // data_post.password = '123'
     data_post.fk_roles_user = 2
     return request.post('/signup').send(data_post)
       .then(res => expect(res.statusCode).toEqual(204))
@@ -217,6 +226,10 @@ describe("Test user.js", () => {
   test("Deve retornar statusCode 204 se conseguir persistir um novo admin no BD", () => {
     setInterval(pass_time, 1000)
     data_post = create_user_data()
+    // data_post.name= 'adminTest'
+    // data_post.cpf= 'cpfAdmin'
+    // data_post.mail= 'admin@mail'
+    // data_post.password= '123'
     data_post.fk_roles_user = 3
     return request.post('/signup').send(data_post)
       .then(res => expect(res.statusCode).toEqual(204))
@@ -231,7 +244,7 @@ describe('Test user.js autenticado', () => {
     // TODO: A rota /user_update tem que efetifamente realizar o update
     // TODO: QUANDO REFAZER O BD VAI DAR ERRO, ALTERAR O PK_USER
     update_data = {
-      target_pk_user: 60,
+      target_pk_user: 4,
       // name: 'update_user_employee',
       // mail: 'não vou alterar pq é unique',
       fk_roles_user: 2,
@@ -261,7 +274,7 @@ describe('Test user.js autenticado', () => {
     // TODO: A rota /user_update tem que efetifamente realizar o update
     // TODO: QUANDO REFAZER O BD VAI DAR ERRO, ALTERAR O PK_USER
     update_data = {
-      target_pk_user: 60,
+      target_pk_user: 4,
       name: 'update_user_employee',
       fk_roles_user: 3,
     }
@@ -277,7 +290,7 @@ describe('Test user.js autenticado', () => {
     // TODO: A rota /user_update tem que efetifamente realizar o update
     // TODO: QUANDO REFAZER O BD VAI DAR ERRO, ALTERAR O PK_USER
     update_data = {
-      target_pk_user: 60,
+      target_pk_user: 4,
       password: 'not_allowed',
       fk_roles_user: 3,
     }
@@ -293,7 +306,7 @@ describe('Test user.js autenticado', () => {
     // TODO: A rota /user_update tem que efetifamente realizar o update
     // TODO: QUANDO REFAZER O BD VAI DAR ERRO, ALTERAR O PK_USER
     update_data = {
-      target_pk_user: 60,
+      target_pk_user: 4,
       mail: 'not_allowed@mail',
       fk_roles_user: 3,
     }
@@ -309,7 +322,7 @@ describe('Test user.js autenticado', () => {
     // TODO: A rota /user_update tem que efetifamente realizar o update
     // TODO: QUANDO REFAZER O BD VAI DAR ERRO, ALTERAR O PK_USER
     update_data = {
-      target_pk_user: 60,
+      target_pk_user: 4,
       fk_roles_user: 3,
       cpf: '999999888',
     }
@@ -325,7 +338,7 @@ describe('Test user.js autenticado', () => {
     // TODO: A rota /user_update tem que efetifamente realizar o update
     // TODO: QUANDO REFAZER O BD VAI DAR ERRO, ALTERAR O PK_USER
     update_data = {
-      target_pk_user: 60,
+      target_pk_user: 4,
       fk_roles_user: 3,
       is_active: false,
     }
@@ -341,7 +354,7 @@ describe('Test user.js autenticado', () => {
     // TODO: A rota /user_update tem que efetifamente realizar o update
     // TODO: QUANDO REFAZER O BD VAI DAR ERRO, ALTERAR O PK_USER
     update_data = {
-      target_pk_user: 60,
+      target_pk_user: 4,
       name: 'update_user_employee',
       fk_roles_user: 3,
     }
@@ -357,7 +370,7 @@ describe('Test user.js autenticado', () => {
     // TODO: A rota /user_update tem que efetifamente realizar o update
     // TODO: QUANDO REFAZER O BD VAI DAR ERRO, ALTERAR O PK_USER
     update_data = {
-      target_pk_user: 60,
+      target_pk_user: 4,
       password: 'not_allowed',
       fk_roles_user: 3,
     }
@@ -373,7 +386,7 @@ describe('Test user.js autenticado', () => {
     // TODO: A rota /user_update tem que efetifamente realizar o update
     // TODO: QUANDO REFAZER O BD VAI DAR ERRO, ALTERAR O PK_USER
     update_data = {
-      target_pk_user: 60,
+      target_pk_user: 4,
       mail: 'not_allowed@mail',
       fk_roles_user: 3,
     }
@@ -389,7 +402,7 @@ describe('Test user.js autenticado', () => {
     // TODO: A rota /user_update tem que efetifamente realizar o update
     // TODO: QUANDO REFAZER O BD VAI DAR ERRO, ALTERAR O PK_USER
     update_data = {
-      target_pk_user: 60,
+      target_pk_user: 4,
       fk_roles_user: 3,
       cpf: '999999777',
     }
@@ -405,7 +418,7 @@ describe('Test user.js autenticado', () => {
     // TODO: A rota /user_update tem que efetifamente realizar o update
     // TODO: QUANDO REFAZER O BD VAI DAR ERRO, ALTERAR O PK_USER
     update_data = {
-      target_pk_user: 60,
+      target_pk_user: 4,
       fk_roles_user: 3,
       is_active: false,
     }
@@ -426,7 +439,7 @@ describe('Test user.js autenticado', () => {
   })
 
   test("Deve retornar statusCode 400 se um user tentar recuperar dados de outro user no BD", () => {
-    let target_user = { target_pk_user: 60 }
+    let target_user = { target_pk_user: 4 }
     return login(credentials_user).then(res => {
       request.post('/user_read')
         .set('Authorization', 'Bearer ' + res.body.token)
@@ -435,7 +448,7 @@ describe('Test user.js autenticado', () => {
   })
 
   test("Deve retornar statusCode 400 se um empregado tentar recuperar dados de outro user no BD", () => {
-    let target_user = { target_pk_user: 60 }
+    let target_user = { target_pk_user: 4 }
     return login(credentials_employee).then(res => {
       request.post('/user_read')
         .set('Authorization', 'Bearer ' + res.body.token)
@@ -479,7 +492,7 @@ describe('Test user.js autenticado', () => {
     return login(credentials_user).then(res => {
       request.post('/user_delete')
         .set('Authorization', 'Bearer ' + res.body.token)
-        .send({ target_pk_user: 30 }).then(res => expect(res.statusCode).toEqual(400))
+        .send({ target_pk_user: 4 }).then(res => expect(res.statusCode).toEqual(400))
     })
   })
 
@@ -487,7 +500,7 @@ describe('Test user.js autenticado', () => {
     return login(credentials_admin).then(res => {
       request.post('/user_delete')
         .set('Authorization', 'Bearer ' + res.body.token)
-        .send({ target_pk_user: 588 }).then(res => expect(res.statusCode).toEqual(200))
+        .send({ target_pk_user: 4 }).then(res => expect(res.statusCode).toEqual(200))
     })
   })
 
@@ -511,34 +524,62 @@ describe('Test user.js autenticado', () => {
 //TODO: Teste card.js
 describe("Test card.js", () => {
 
-    test("Deve retornar statusCode 200 se conseguir persistir um novo cartão no BD", () => {
-        // TODO: O teste
-        let recebi_do_sistema = 0
-        expect(recebi_do_sistema).toEqual('O que eu espero receber')
-    })
+  // test("Deve retornar statusCode 200 se conseguir persistir um novo cartão no BD", () => {
+  //     let card_data = {
+  //       num_cd: '0000111122223333',
+  //       nme_cd_holder: 'pai do userTest',
+  //       validity: '01/2022',
+  //       credit: false,
+  //     }
+  //     return login(credentials_user).then(res => {
+  //       request.post('/cards_create')
+  //         .set('Authorization', 'Bearer ' + res.body.token)
+  //         .send(card_data).then(res => expect(res.statusCode).toEqual(204))
+  //     })
+  // })
 
-    test("Deve retornar statusCode 200 se conseguir alterar um cartão existente no BD", () => {
-        // TODO: O teste
-        let recebi_do_sistema = 0
-        expect(recebi_do_sistema).toEqual('O que eu espero receber')
-    })
+  // test("Deve retornar statusCode 200 se conseguir recuperar um cartão existente no BD", () => {
+  //   return login(credentials_user).then(res => {
+  //     request.post('/cards_read')
+  //       .set('Authorization', 'Bearer ' + res.body.token)
+  //       .send().then(res => expect(res.statusCode).toEqual(200))
+  //   })
+  // })
 
-    test("Deve retornar statusCode 200 se conseguir recuperar um cartão existente no BD", () => {
-        // TODO: O teste
-        let recebi_do_sistema = 0
-        expect(recebi_do_sistema).toEqual('O que eu espero receber')
-    })
+  // test("Deve retornar statusCode 200 se conseguir alterar um cartão existente no BD", () => {
+  //   let card_data = {
+  //     pk_card: 1,
+  //     num_cd: '0000111122224444',
+  //     validity: '06/2023',
+  //     credit: true,
+  //   }
+  //   return login(credentials_user).then(res => {
+  //     request.put('/cards_update')
+  //       .set('Authorization', 'Bearer ' + res.body.token)
+  //       .send(card_data).then(res => expect(res.statusCode).toEqual(200))
+  //   })
+  // })
 
-    test("Deve retornar statusCode 200 se conseguir remover um cartão no BD", () => {
-        // TODO: O teste
-        let recebi_do_sistema = 0
-        expect(recebi_do_sistema).toEqual('O que eu espero receber')
-    })
+  // test("Deve retornar statusCode 200 se conseguir remover um cartão no BD", () => {
+  //   let card_to_delete = { pk_card: 2 }
+  //   return login(credentials_user).then(res => {
+  //     request.delete('/cards_delete')
+  //       .set('Authorization', 'Bearer ' + res.body.token)
+  //       .send(card_to_delete).then(res => expect(res.statusCode).toEqual(200))
+  //   })
+  // })
 
-    test("Deve retornar statusCode 400 se não conseguir persistir um cartão no BD", () => {
-        // TODO: O teste
-        let recebi_do_sistema = 0
-        expect(recebi_do_sistema).toEqual('O que eu espero receber')
-    })
+  test("Deve retornar statusCode 400 se não conseguir persistir um cartão no BD", () => {
+      let incomplete_card = {
+        nme_cd_holder: 'pai do userTest',
+        validity: '01/2022',
+        credit: false,
+      }
+      return login(credentials_user).then(res => {
+        request.post('/cards_create')
+          .set('Authorization', 'Bearer ' + res.body.token)
+          .send(incomplete_card).then(res => expect(res.statusCode).toEqual(400))
+      })
+  })
 
 })
