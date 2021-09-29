@@ -8,7 +8,7 @@ module.exports = app => {
     try {
 
     } catch (e) {
-      console.log('\n\nEEEEEEERRRRROOOOO!!!\n\noffer.js - create\t', e)
+      console.log('\n\nEEEEEEERRRRROOOOO!!!\n\noffer.js - create\n\n', e)
 
     }
   }
@@ -17,7 +17,7 @@ module.exports = app => {
     try {
 
     } catch (e) {
-      console.log('\n\nEEEEEEERRRRROOOOO!!!\n\noffer.js - read\t', e)
+      console.log('\n\nEEEEEEERRRRROOOOO!!!\n\noffer.js - read\n\n', e)
 
     }
   }
@@ -26,7 +26,7 @@ module.exports = app => {
     try {
 
     } catch (e) {
-      console.log('\n\nEEEEEEERRRRROOOOO!!!\n\noffer.js - update\t', e)
+      console.log('\n\nEEEEEEERRRRROOOOO!!!\n\noffer.js - update\n\n', e)
 
     }
   }
@@ -35,7 +35,7 @@ module.exports = app => {
     try {
 
     } catch (e) {
-      console.log('\n\nEEEEEEERRRRROOOOO!!!\n\noffer.js - del\t', e)
+      console.log('\n\nEEEEEEERRRRROOOOO!!!\n\noffer.js - del\n\n', e)
 
     }
   }
