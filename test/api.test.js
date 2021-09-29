@@ -151,7 +151,7 @@ describe("Test role.js", () => {
 describe("Test auth.js", () => {
 
   test("Deve retornar statusCode 200 se receber credenciais que confiram com o BD", () => {
-    let credentials = { mail: 'Raf', password: '123' }
+    let credentials = { mail: 'admin@mail', password: '123' }
     return login(credentials).then(res => {
       expect(res.statusCode).toEqual(200)
     })
@@ -172,7 +172,7 @@ describe("Test auth.js", () => {
   })
 
   test("Deve retornar statusCode 401 se o campo senha estiver incorreto.", () => {
-    let credentials = { mail: 'Raf', password: '1234' }
+    let credentials = { mail: 'admin@mail', password: '1234' }
     return login(credentials).then(res => {
       expect(res.statusCode).toEqual(401)
     })
@@ -194,6 +194,7 @@ describe("Test auth.js", () => {
 
 })
 */
+
 
 /*
 describe("Test user.js", () => {
@@ -520,54 +521,53 @@ describe('Test user.js autenticado', () => {
 })
 */
 
-
-//TODO: Teste card.js
+/*
 describe("Test card.js", () => {
 
-  // test("Deve retornar statusCode 200 se conseguir persistir um novo cartão no BD", () => {
-  //     let card_data = {
-  //       num_cd: '0000111122223333',
-  //       nme_cd_holder: 'pai do userTest',
-  //       validity: '01/2022',
-  //       credit: false,
-  //     }
-  //     return login(credentials_user).then(res => {
-  //       request.post('/cards_create')
-  //         .set('Authorization', 'Bearer ' + res.body.token)
-  //         .send(card_data).then(res => expect(res.statusCode).toEqual(204))
-  //     })
-  // })
+  test("Deve retornar statusCode 200 se conseguir persistir um novo cartão no BD", () => {
+      let card_data = {
+        num_cd: '0000111122223333',
+        nme_cd_holder: 'pai do userTest',
+        validity: '01/2022',
+        credit: false,
+      }
+      return login(credentials_user).then(res => {
+        request.post('/cards_create')
+          .set('Authorization', 'Bearer ' + res.body.token)
+          .send(card_data).then(res => expect(res.statusCode).toEqual(204))
+      })
+  })
 
-  // test("Deve retornar statusCode 200 se conseguir recuperar um cartão existente no BD", () => {
-  //   return login(credentials_user).then(res => {
-  //     request.post('/cards_read')
-  //       .set('Authorization', 'Bearer ' + res.body.token)
-  //       .send().then(res => expect(res.statusCode).toEqual(200))
-  //   })
-  // })
+  test("Deve retornar statusCode 200 se conseguir recuperar um cartão existente no BD", () => {
+    return login(credentials_user).then(res => {
+      request.post('/cards_read')
+        .set('Authorization', 'Bearer ' + res.body.token)
+        .send().then(res => expect(res.statusCode).toEqual(200))
+    })
+  })
 
-  // test("Deve retornar statusCode 200 se conseguir alterar um cartão existente no BD", () => {
-  //   let card_data = {
-  //     pk_card: 1,
-  //     num_cd: '0000111122224444',
-  //     validity: '06/2023',
-  //     credit: true,
-  //   }
-  //   return login(credentials_user).then(res => {
-  //     request.put('/cards_update')
-  //       .set('Authorization', 'Bearer ' + res.body.token)
-  //       .send(card_data).then(res => expect(res.statusCode).toEqual(200))
-  //   })
-  // })
+  test("Deve retornar statusCode 200 se conseguir alterar um cartão existente no BD", () => {
+    let card_data = {
+      pk_card: 1,
+      num_cd: '0000111122224444',
+      validity: '06/2023',
+      credit: true,
+    }
+    return login(credentials_user).then(res => {
+      request.put('/cards_update')
+        .set('Authorization', 'Bearer ' + res.body.token)
+        .send(card_data).then(res => expect(res.statusCode).toEqual(200))
+    })
+  })
 
-  // test("Deve retornar statusCode 200 se conseguir remover um cartão no BD", () => {
-  //   let card_to_delete = { pk_card: 2 }
-  //   return login(credentials_user).then(res => {
-  //     request.delete('/cards_delete')
-  //       .set('Authorization', 'Bearer ' + res.body.token)
-  //       .send(card_to_delete).then(res => expect(res.statusCode).toEqual(200))
-  //   })
-  // })
+  test("Deve retornar statusCode 200 se conseguir remover um cartão no BD", () => {
+    let card_to_delete = { pk_card: 2 }
+    return login(credentials_user).then(res => {
+      request.delete('/cards_delete')
+        .set('Authorization', 'Bearer ' + res.body.token)
+        .send(card_to_delete).then(res => expect(res.statusCode).toEqual(200))
+    })
+  })
 
   test("Deve retornar statusCode 400 se não conseguir persistir um cartão no BD", () => {
       let incomplete_card = {
@@ -580,6 +580,98 @@ describe("Test card.js", () => {
           .set('Authorization', 'Bearer ' + res.body.token)
           .send(incomplete_card).then(res => expect(res.statusCode).toEqual(400))
       })
+  })
+
+})
+*/
+
+describe("Test company.js", () => {
+
+  test("Deve retornar statusCode 200 se conseguir persistir uma nova empresa no BD", () => {
+      let company_data = {
+        cnpj:'00111222000103',
+        nme_company:'companyTest',
+      }
+
+      return ( login(credentials_admin).then(res => {
+        request.post('/company_create')
+        .set('Authorization', 'Bearer ' + res.body.token)
+        .send(company_data)
+        .then(res => expect(res.statusCode).toEqual(200))
+      }))
+  })
+
+  test("Deve retornar statusCode 200 se conseguir alterar uma empresa existente no BD", () => {
+      let company_data = {
+        target_pk_company: 1,
+        cnpj:'99888777000105',
+        nme_company:'companyTestUpdate',
+      }
+
+      return ( login(credentials_admin).then(res => {
+        request.put('/company_update')
+        .set('Authorization', 'Bearer ' + res.body.token)
+        .send(company_data)
+        .then(res => expect(res.statusCode).toEqual(200))
+      }))
+  })
+
+  test("Deve retornar statusCode 200 se conseguir recuperar as empresas existentes no BD", () => {
+    let read_data = { table: 'tb_companies'}
+    return ( login(credentials_admin).then(res => {
+      request.post('/company_read')
+      .set('Authorization', 'Bearer ' + res.body.token)
+      .send(read_data)
+      .then(res => expect(res.statusCode).toEqual(200))
+    }))
+  })
+
+  test("Deve retornar statusCode 200 se conseguir remover uma empresa no BD", () => {
+    let delete_data = { target_pk_company: 1}
+    return ( login(credentials_admin).then(res => {
+      request.post('/company_delete')
+      .set('Authorization', 'Bearer ' + res.body.token)
+      .send(delete_data)
+      .then(res => expect(res.statusCode).toEqual(200))
+    }))
+  })
+
+  test("Deve retornar statusCode 400 se não conseguir persistir uma empresa no BD", () => {
+    let incomplete_company = {
+      nme_company: 'companyTest',
+    }
+
+    return (login(credentials_admin).then(res => {
+      request.post('/company_create')
+        .set('Authorization', 'Bearer ' + res.body.token)
+        .send(incomplete_company)
+        .then(res => expect(res.statusCode).toEqual(400))
+    }))
+  })
+
+  test("Deve retornar statusCode 400 se não conseguir recuperar uma empresa no BD", () => {
+    let read_data = { table: 'tb_companies'}
+    return ( login(credentials_user).then(res => {
+      request.post('/company_read')
+      .set('Authorization', 'Bearer ' + res.body.token)
+      .send(read_data)
+      .then(res => expect(res.statusCode).toEqual(400))
+    }))
+  })
+
+  test("Deve retornar statusCode 400 se não conseguir alterar uma empresa no BD", () => {
+      let company_data = {
+        target_pk_company: 1,
+        cnpj:'99888777000105',
+        nme_company:'TestUserUpdateCompany',
+      }
+
+      return ( login(credentials_user).then(res => {
+        request.put('/company_update')
+        .set('Authorization', 'Bearer ' + res.body.token)
+        .send(company_data)
+        .then(res => expect(res.statusCode).toEqual(400))
+      }))
   })
 
 })

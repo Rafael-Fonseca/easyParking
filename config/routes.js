@@ -59,6 +59,25 @@ module.exports = app => {
     .delete(app.api.card.del)
 
 
+  // INICIO ROTAS --- COMPANY
+  app.route('/company_create')
+    .all(app.config.passport.authenticate())
+    .post(app.api.company.create)
+
+    app.route('/company_read')
+    .all(app.config.passport.authenticate())
+    .post(app.api.company.read)
+
+    app.route('/company_update')
+    .all(app.config.passport.authenticate())
+    .put(app.api.company.update)
+
+    app.route('/company_delete')
+    .all(app.config.passport.authenticate())
+    .post(app.api.company.del)
+
+
+
   // ------------- EXEMPLO!!!!!!!!!!!
   // app.route('/tasks/:id/toggle')
   //     .all(app.config.passport.authenticate())

@@ -114,54 +114,6 @@ describe("Test ticket.js", () => {
 })
 */
 
-//TODO: Teste company.js
-/*
-describe("Test company.js", () => {
-
-    test("Deve retornar statusCode 200 se conseguir persistir uma nova empresa no BD", () => {
-        // TODO: O teste
-        let recebi_do_sistema = 0
-        expect(recebi_do_sistema).toEqual('O que eu espero receber')
-    })
-
-    test("Deve retornar statusCode 200 se conseguir alterar uma empresa existente no BD", () => {
-        // TODO: O teste
-        let recebi_do_sistema = 0
-        expect(recebi_do_sistema).toEqual('O que eu espero receber')
-    })
-
-    test("Deve retornar statusCode 200 se conseguir recuperar uma empresa existente no BD", () => {
-        // TODO: O teste
-        let recebi_do_sistema = 0
-        expect(recebi_do_sistema).toEqual('O que eu espero receber')
-    })
-
-    test("Deve retornar statusCode 200 se conseguir remover uma empresa no BD", () => {
-        // TODO: O teste
-        let recebi_do_sistema = 0
-        expect(recebi_do_sistema).toEqual('O que eu espero receber')
-    })
-
-    test("Deve retornar statusCode 400 se não conseguir persistir uma empresa no BD", () => {
-        // TODO: O teste
-        let recebi_do_sistema = 0
-        expect(recebi_do_sistema).toEqual('O que eu espero receber')
-    })
-
-    test("Deve retornar statusCode 400 se não conseguir recuperar uma empresa no BD", () => {
-        // TODO: O teste
-        let recebi_do_sistema = 0
-        expect(recebi_do_sistema).toEqual('O que eu espero receber')
-    })
-
-    test("Deve retornar statusCode 400 se não conseguir alterar uma empresa no BD", () => {
-        // TODO: O teste
-        let recebi_do_sistema = 0
-        expect(recebi_do_sistema).toEqual('O que eu espero receber')
-    })
-
-})
-*/
 
 //TODO: Teste settings.js
 /*
