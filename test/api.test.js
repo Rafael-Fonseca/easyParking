@@ -585,6 +585,8 @@ describe("Test card.js", () => {
 })
 */
 
+
+/*
 describe("Test company.js", () => {
 
   test("Deve retornar statusCode 200 se conseguir persistir uma nova empresa no BD", () => {
@@ -672,6 +674,93 @@ describe("Test company.js", () => {
         .send(company_data)
         .then(res => expect(res.statusCode).toEqual(400))
       }))
+  })
+
+})
+*/
+
+
+//TODO: Teste offer.js
+describe("Test offer.js", () => {
+
+  // test("Deve retornar statusCode 200 se conseguir persistir uma nova oferta no BD", () => {
+  //   let offer_data = {
+  //     fk_companies_offers: 1,
+  //     tme_begin: Date.now(),
+  //     tme_end: Date.now(),
+  //     //img: Bitea
+  //   }
+
+  //   return ( login(credentials_admin).then(res => {
+  //     request.post('/offer_create')
+  //     .set('Authorization', 'Bearer ' + res.body.token)
+  //     .send(offer_data)
+  //     .then(res => expect(res.statusCode).toEqual(200))
+  //   }))
+  // })
+
+  // test("Deve retornar statusCode 200 se conseguir alterar uma oferta existente no BD", () => {
+  //   let offer_data = {
+  //     target_pk_offer: 1,
+  //     fk_companies_offers: 1,
+  //     tme_begin: 1632950503185,
+  //     tme_end: 1632950503185,
+  //     //img: Bitea
+  //   }
+
+  //   return (login(credentials_admin).then(res => {
+  //     request.put('/offer_update')
+  //       .set('Authorization', 'Bearer ' + res.body.token)
+  //       .send(offer_data)
+  //       .then(res => expect(res.statusCode).toEqual(200))
+  //   }))
+  // })
+
+  // test("Deve retornar statusCode 200 se conseguir recuperar uma oferta existente no BD", () => {
+  //   return (request.get('/offer_read')
+  //       .send()
+  //       .then(res => expect(res.statusCode).toEqual(200))
+  //   )
+  // })
+
+  // test("Deve retornar statusCode 200 se conseguir remover uma oferta no BD", () => {
+  //   const delete_data = {
+  //     target_pk_offer: 1,
+  //   }
+  //   return login(credentials_admin).then(resp => {
+  //     request.post('/offer_delete')
+  //       .set('Authorization', 'Bearer ' + resp.body.token)
+  //       .send(delete_data).then(res =>
+  //         expect(res.statusCode).toEqual(200))
+  //   })
+  // })
+
+  // test("Deve retornar statusCode 400 se não conseguir persistir uma oferta no BD", () => {
+  //   let incomplete_offer_data = {
+  //     fk_companies_offers: 1,
+  //     tme_end: Date.now(),
+  //   }
+
+  //   return ( login(credentials_admin).then(res => {
+  //     request.post('/offer_create')
+  //     .set('Authorization', 'Bearer ' + res.body.token)
+  //     .send(incomplete_offer_data)
+  //     .then(res => expect(res.statusCode).toEqual(400))
+  //   }))
+  // })
+
+  test("Deve retornar statusCode 400 se não conseguir alterar uma oferta no BD", () => {
+    let incomplete_offer_data = {
+      fk_companies_offers: 1,
+      tme_end: Date.now(),
+    }
+
+    return ( login(credentials_user).then(res => {
+      request.put('/offer_update')
+      .set('Authorization', 'Bearer ' + res.body.token)
+      .send(incomplete_offer_data)
+      .then(res => expect(res.statusCode).toEqual(400))
+    }))
   })
 
 })

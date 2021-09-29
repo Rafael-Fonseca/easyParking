@@ -77,6 +77,22 @@ module.exports = app => {
     .post(app.api.company.del)
 
 
+  // INICIO ROTAS --- OFFER
+  app.route('/offer_create')
+    .all(app.config.passport.authenticate())
+    .post(app.api.offer.create)
+
+    app.route('/offer_read')
+    .get(app.api.offer.read)
+
+    app.route('/offer_update')
+    .all(app.config.passport.authenticate())
+    .put(app.api.offer.update)
+
+    app.route('/offer_delete')
+    .all(app.config.passport.authenticate())
+    .post(app.api.offer.del)
+
 
   // ------------- EXEMPLO!!!!!!!!!!!
   // app.route('/tasks/:id/toggle')
