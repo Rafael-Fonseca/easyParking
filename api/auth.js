@@ -3,7 +3,7 @@ const jwt = require('jwt-simple')
 const bcrypt = require('bcryptjs')
 
 module.exports = app => {
-  const signin = async (req, res, next) => {
+  const signin = async (req, res) => {
     try {
 
       if (!req.body.mail || !req.body.password) {
@@ -29,8 +29,8 @@ module.exports = app => {
       } else {
         res.status(400).send('E-mail ou senha incorreto.')
       }
-    } catch (e) {
-      next(e)
+    } catch (err) {
+      throw err
     }
   }
   return { signin }

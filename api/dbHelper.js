@@ -35,34 +35,11 @@ module.exports = app => {
     } catch (err) {
       console.log('\n\nOLHAAA O EEEEEERROOOO!!!!\n\nSelect DbHelper\n\n', kwargs)
       console.log('\n\nERR:\n\n', err)
+      throw err
     }
 
   }
 
-  async function sel_innerjoin(kwargs) {
-    //TODO: Função ainda não usada, nem testada
-    try {
-      if (kwargs.what === undefined) {
-        app.db(kwargs.table)
-          .innerJoin(kwargs.other_table, kwargs.key_table,
-            kwargs.signal, kwargs.key_other_table)
-          .where(kwargs.where)
-
-      } else {
-        app.db(kwargs.table)
-          .innerJoin(kwargs.other_table, kwargs.key_table,
-            kwargs.signal, kwargs.key_other_table)
-          .select(...kwargs.what)
-          .where(kwargs.where)
-
-
-      }
-
-    } catch (err) {
-      console.log(err)
-    }
-
-  }
 
   async function insert(table, insert_data) {
     /*
@@ -76,6 +53,7 @@ module.exports = app => {
       return await app.db(table).insert(insert_data)
     } catch (err) {
       console.log(err)
+      throw err
     }
   }
 
@@ -96,16 +74,18 @@ module.exports = app => {
 
     } catch (err) {
       console.log(err)
+      throw err
     }
   }
 
   async function del(table, where) {
     try{
       return await app.db(table).where(where).del()
-    }catch (e){
-      console.log(e)
+    }catch (err){
+      console.log(err)
+      throw err
     }
   }
 
-  return { select, insert, sel_innerjoin, update, del}
+  return { select, insert, update, del}
 }

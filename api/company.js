@@ -1,10 +1,9 @@
-//TODO: Codificar crud
 module.exports = app => {
   //Definição de variáveis globais em app
   table_companies = 'tb_companies'
 
   //Definição das funções desta rota
-  const create = async (req, res, next) => {
+  const create = async (req, res) => {
     try {
 
       //CAPTURE A PK DO REQUESTER
@@ -14,7 +13,7 @@ module.exports = app => {
       if (req.body.cnpj !== undefined && req.body.nme_company !== undefined) {
 
         //É ADMINISTRADOR?
-        if (await app.api.authHelper.is_user('admin', req, res, next)) {
+        if (await app.api.authHelper.is_user('admin', req)) {
           //PREPARA OS DADOS, 
           company_data = {
             cnpj: req.body.cnpj,
@@ -38,34 +37,35 @@ module.exports = app => {
         // ALGUM DADO OBRIGATÓRIO NÃO FOI PREENCHIDO. NEGUE A REQUISIÇÃO
         res.status(400).send('Algum dado obrigatório não foi preenchido.')
       }
-    } catch (e) {
-      console.log('\n\nEEEEEEERRRRROOOOO!!!\n\ncompany.js - create\n\n', e)
-      next(e)
+    } catch (err) {
+      console.log('\n\nEEEEEEERRRRROOOOO!!!\n\ncompany.js - create\n\n', err)
+      res.status(400).json(err)
     }
   }
 
-  const read = async (req, res, next) => {
+  const read = async (req, res) => {
     try {
-      if (await app.api.authHelper.is_user('admin', req, res, next)) {
+      if (await app.api.authHelper.is_user('admin', req)) {
         await app.api.dbHelper.select(req.body)
         res.status(200).send()
       } else {
         res.status(400).send('Necessário acesso de administrador.')
       }
 
-    } catch (e) {
-      console.log('\n\nEEEEEEERRRRROOOOO!!!\n\ncompany.js - read\n\n', e)
+    } catch (err) {
+      console.log('\n\nEEEEEEERRRRROOOOO!!!\n\ncompany.js - read\n\n', err)
+      res.status(400).json(err)
 
     }
   }
 
-  const update = async (req, res, next) => {
+  const update = async (req, res) => {
     try {
       //PK DO REQUERENTE?
       const pk_requester = app.api.authHelper.get_pk_user(req)
 
       //É ADMINISTRADOR?
-      if (await app.api.authHelper.is_user('admin', req, res, next)) {
+      if (await app.api.authHelper.is_user('admin', req)) {
 
         //INICIO CONSTRUÇÃO update_data - Este objeto indica o que será alterado
         let update_data = {}
@@ -93,20 +93,20 @@ module.exports = app => {
         res.status(400).send()
       }
 
-    } catch (e) {
-      console.log('\n\nEEEEEEERRRRROOOOO!!!\n\ncompany.js - update\n\n', e)
-
+    } catch (err) {
+      console.log('\n\nEEEEEEERRRRROOOOO!!!\n\ncompany.js - update\n\n', err)
+      res.status(400).json(err)
     }
   }
 
-  const del = async (req, res, next) => {
+  const del = async (req, res) => {
     try {
 
       //PK REQUERENTE
       pk_requester = app.api.authHelper.get_pk_user(req)
 
       //É ADMINISTRADOR?
-      if (await app.api.authHelper.is_user('admin', req, res, next)) {
+      if (await app.api.authHelper.is_user('admin', req)) {
 
         //Prepare os dados para deleção
         const what = {
@@ -130,8 +130,10 @@ module.exports = app => {
         res.status(400).send('Apenas administradores podem realizar esta ação.')
       }
 
-    } catch (e) {
-    console.log('\n\nEEEEEEERRRRROOOOO!!!\n\ncompany.js - del\n\n', e)
+    } catch (err) {
+    console.log('\n\nEEEEEEERRRRROOOOO!!!\n\ncompany.js - del\n\n', err)
+    res.status(400).json(err)
+
   }
 }
 

@@ -43,7 +43,7 @@ module.exports = app => {
   }
 
 
-  const read = async (req, res, next) => {
+  const read = async (req, res) => {
 
     try {
       const pk_requester = app.api.authHelper.get_pk_user(req)
@@ -61,7 +61,7 @@ module.exports = app => {
 
       } else {
         //Usuário quer saber de outro usuário
-        if (await app.api.authHelper.is_user('admin', req, res, next)) {
+        if (await app.api.authHelper.is_user('admin', req)) {
           //É admin, pode mostrar
           await app.api.dbHelper.select({ table: table_users })
           res.status(200).send()
@@ -72,16 +72,16 @@ module.exports = app => {
 
         }
       }
-    } catch (e) {
-      console.log('\n\nOLHAAA O EEEEEERRRRROOOO!!!!\n\nuser.js read\n\n', e)
-      // next(e)
+    } catch (err) {
+      console.log('\n\nOLHAAA O EEEEEERRRRROOOO!!!!\n\nuser.js read\n\n', err)
+      res.status(400).json(err)
     }
 
 
   }
 
 
-  const update = async (req, res, next) => {
+  const update = async (req, res) => {
     //TODO: Refatorar, dividindo em outras funções.
 
     try {
@@ -126,7 +126,7 @@ module.exports = app => {
 
       } else {
         // DE OUTRO USUÁRIO? ENTÃO CONFERE A ROLE DO REQUISITANTE
-        if (await app.api.authHelper.is_user('admin', req, res, next)) {
+        if (await app.api.authHelper.is_user('admin', req)) {
           // SE ADMIN, CONFERE O QUE O ADMIN QUER ALTERAR
           if (
             update_data.name !== undefined ||
@@ -149,15 +149,15 @@ module.exports = app => {
         }
 
       }
-    } catch (e) {
-      console.log('\n\nOLHAAA O EEEEEERROOOO!!!!\n\nuser.js - update\n\n', e)
-      next(e)
+    } catch (err) {
+      console.log('\n\nOLHAAA O EEEEEERROOOO!!!!\n\nuser.js - update\n\n', err)
+      res.status(400).json(err)
     }
 
   }
 
 
-  const del = async (req, res, next) => {
+  const del = async (req, res) => {
     try {
       //Descobre quem é o requerente
       pk_requester = app.api.authHelper.get_pk_user(req)
@@ -175,7 +175,7 @@ module.exports = app => {
         res.status(200).send()
 
       } else { //Esta tentando deletar o cadastro de outro usuário
-        if (await app.api.authHelper.is_user('admin', req, res, next)) {
+        if (await app.api.authHelper.is_user('admin', req)) {
           //Já que é administrador, realize a deleção lógica. E confirme a requisição
           app.api.dbHelper.update(
             table_users,
@@ -190,9 +190,9 @@ module.exports = app => {
 
       }
 
-    } catch (e) {
-      console.log('\n\nOLHAAA O EEEEEERROOOO!!!!\n\nuser js - del\n\n', e)
-      next(e)
+    } catch (err) {
+      console.log('\n\nOLHAAA O EEEEEERROOOO!!!!\n\nuser js - del\n\n', err)
+      res.status(400).json(err)
     }
   }
 

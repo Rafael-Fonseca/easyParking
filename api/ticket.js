@@ -4,39 +4,39 @@ module.exports = app => {
   table_tickets = 'tb_tickets'
 
   //Definição das funções desta rota
-  const create = async (req, res, next) => {
+  const create = async (req, res) => {
     try {
 
-    } catch (e) {
-      console.log('\n\nEEEEEEERRRRROOOOO!!!\n\nticket.js - create\n\n', e)
-
+    } catch (err) {
+      console.log('\n\nEEEEEEERRRRROOOOO!!!\n\nticket.js - create\n\n', err)
+      res.status(400).json(err)
     }
   }
 
-  const read = async (req, res, next) => {
+  const read = async (req, res) => {
     try {
 
-    } catch (e) {
-      console.log('\n\nEEEEEEERRRRROOOOO!!!\n\nticket.js - read\n\n', e)
-
+    } catch (err) {
+      console.log('\n\nEEEEEEERRRRROOOOO!!!\n\nticket.js - read\n\n', err)
+      res.status(400).json(err)
     }
   }
 
-  const update = async (req, res, next) => {
+  const update = async (req, res) => {
     try {
 
-    } catch (e) {
-      console.log('\n\nEEEEEEERRRRROOOOO!!!\n\nticket.js - update\n\n', e)
-
+    } catch (err) {
+      console.log('\n\nEEEEEEERRRRROOOOO!!!\n\nticket.js - update\n\n', err)
+      res.status(400).json(err)
     }
   }
 
-  const del = async (req, res, next) => {
+  const del = async (req, res) => {
     try {
 
-    } catch (e) {
-      console.log('\n\nEEEEEEERRRRROOOOO!!!\n\nticket.js - del\n\n', e)
-
+    } catch (err) {
+      console.log('\n\nEEEEEEERRRRROOOOO!!!\n\nticket.js - del\n\n', err)
+      res.status(400).json(err)
     }
   }
 

@@ -19,7 +19,7 @@ module.exports = app => {
     }
   }
 
-  const create = async (req, res, next) => {
+  const create = async (req, res) => {
 
     try {
 
@@ -51,13 +51,13 @@ module.exports = app => {
         res.status(400).send('Existem campos obrigatórios não preenchidos.')
       }
 
-    } catch (e) {
-      console.log('\n\nEEEEEEERRRRROOOOO!!!\n\ncard.js - create\t', e)
-      next(e)
+    } catch (err) {
+      console.log('\n\nEEEEEEERRRRROOOOO!!!\n\ncard.js - create\t', err)
+      res.status(400).json(err)
     }
   }
 
-  const read = async (req, res, next) => {
+  const read = async (req, res) => {
     try {
       // DESCUBRA QUEM É O REQUISITANTE
       pk_requester = app.api.authHelper.get_pk_user(req)
@@ -72,14 +72,13 @@ module.exports = app => {
       await app.api.dbHelper.select(kwargs)
       res.status(200).send()
 
-    } catch (e) {
-      console.log('\n\nEEEEEEERRRRROOOOO!!!\n\ncard.js - read\t', e)
-      res.status(400).send()
-      // next(e)
+    } catch (err) {
+      console.log('\n\nEEEEEEERRRRROOOOO!!!\n\ncard.js - read\t', err)
+      res.status(400).json(err)
     }
   }
 
-  const update = async (req, res, next) => {
+  const update = async (req, res) => {
     try {
 
       //DESCUBRA QUEM É O REQUISITANTE
@@ -118,13 +117,13 @@ module.exports = app => {
         //REJEITE ESTA REQUISIÇÃO, APENAS O DONO DO CARTÃO PODE REALIZAR ALTERAÇÕES
         res.status(400).send('Apenas o dono do cartão pode realizar esta operação')
       }
-    } catch (e) {
-      console.log('\n\nEEEEEEERRRRROOOOO!!!\n\ncard.js - update\n\n', e)
-      next(e)
+    } catch (err) {
+      console.log('\n\nEEEEEEERRRRROOOOO!!!\n\ncard.js - update\n\n', err)
+      res.status(400).json(err)
     }
   }
 
-  const del = async (req, res, next) => {
+  const del = async (req, res) => {
     
     try {
 
@@ -143,9 +142,9 @@ module.exports = app => {
         res.status(400).send('Apenas o dono do cartão pode realizar esta ação.')
       }
 
-    } catch (e) {
-      console.log('\n\nEEEEEEERRRRROOOOO!!!\n\ncard.js - del\t', e)
-      next(e)
+    } catch (err) {
+      console.log('\n\nEEEEEEERRRRROOOOO!!!\n\ncard.js - del\t', err)
+      res.status(400).json(err)
     }
   }
 

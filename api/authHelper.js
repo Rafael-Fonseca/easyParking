@@ -8,7 +8,7 @@ module.exports = app => {
     return payload.pk_user
   }
 
-  const is_user = async (role, req, res, next) => {
+  const is_user = async (role, req) => {
     try {
 
       const result = await app.api.dbHelper.select({
@@ -30,8 +30,8 @@ module.exports = app => {
       } else {
         return false
       }
-    } catch (e) {
-      next(e)
+    } catch (err) {
+      throw err
     }
   }
 
