@@ -844,3 +844,94 @@ describe("Test ticket.js", () => {
 */
 
 
+/*
+describe("Test setting.js", () => {
+
+  test("Deve retornar statusCode 200 se conseguir persistir uma nova configuração no BD", () => {
+    let setting_data = {
+      min_cost: 0.10,
+    }
+
+    return ( login(credentials_admin).then(res => {
+      request.post('/setting_create')
+      .set('Authorization', 'Bearer ' + res.body.token)
+      .send(setting_data)
+      .then(res => expect(res.statusCode).toEqual(200))
+    }))
+  })
+
+  test("Deve retornar statusCode 200 se conseguir alterar uma configuração existente no BD", () => {
+      //Se tentar alterar, o código chamado será o de create setting uma vez que
+      //não será possivel editar ou apagar configurações especificas
+  })
+
+  test("Deve retornar statusCode 200 se conseguir recuperar uma configuração existente no BD", () => {
+    let setting_read = {
+      target_pk_setting: 1,
+    }
+
+    return (login(credentials_admin).then(res => {
+      request.post('/setting_read')
+        .set('Authorization', 'Bearer ' + res.body.token)
+        .send(setting_read)
+        .then(res => expect(res.statusCode).toEqual(200))
+    }))
+  })
+
+  test("Deve retornar statusCode 200 se conseguir recuperar todas as configurações existente no BD", () => {
+    return (login(credentials_admin).then(res => {
+      request.post('/setting_read')
+        .set('Authorization', 'Bearer ' + res.body.token)
+        .send()
+        .then(res => expect(res.statusCode).toEqual(200))
+    }))
+  })
+
+  test("Deve retornar statusCode 200 se conseguir remover uma configuração no BD", () => {
+    let setting_delete = {
+      target_pk_setting: 2,
+    }
+
+    return request.post('/setting_delete')
+      .send(setting_delete)
+      .then(res => expect(res.statusCode).toEqual(200))
+  })
+
+  test("Deve retornar statusCode 400 se não conseguir persistir uma configuração no BD", () => {
+    let setting_data = {
+      min_cost: 0.55,
+    }
+
+    return ( login(credentials_user).then(res => {
+      request.post('/setting_create')
+      .set('Authorization', 'Bearer ' + res.body.token)
+      .send(setting_data)
+      .then(res => expect(res.statusCode).toEqual(400))
+    }))
+  })
+
+  test("Deve retornar statusCode 400 se não conseguir recuperar uma configuração no BD", () => {
+    let setting_read = {
+      target_pk_setting: 1000000,
+    }
+
+    return (login(credentials_admin).then(res => {
+      request.post('/setting_read')
+        .set('Authorization', 'Bearer ' + res.body.token)
+        .send(setting_read)
+        .then(res => expect(res.statusCode).toEqual(400))
+    }))
+  })
+
+  test("Deve retornar statusCode 400 se não conseguir deletar uma configuração no BD", () => {
+    let setting_delete = {
+      target_pk_setting: 1,
+    }
+
+    return request.post('/setting_delete')
+      .send(setting_delete)
+      .then(res => expect(res.statusCode).toEqual(400))
+  })
+
+})
+*/

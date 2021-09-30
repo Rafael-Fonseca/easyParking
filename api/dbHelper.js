@@ -61,7 +61,7 @@ module.exports = app => {
     /*
     params:
     table: 'nome da tabela no bd'
-    insert_data: {coluna_no_bd: value}
+    update_data: {coluna_no_bd: value}
     where: {clausula where}
 
     return: null, apenas altera update_data na tabela do banco de dados
@@ -92,5 +92,12 @@ module.exports = app => {
     return new Date(miliseconds).toISOString()
   }
 
-  return { select, insert, update, del, to_timestamp}
+  const time_limit = function (date) {
+    const object_day = new Date(date)
+    let diff = Math.abs(new Date() - object_day) //Dado em milisegundos
+    let days_diff = Math.ceil(diff / (1000 * 60 * 60 * 24))
+    return days_diff > 365 * 5 + 2 //5 anos + 2 dias para o pior caso.
+  }
+
+  return { select, insert, update, del, to_timestamp, time_limit}
 }

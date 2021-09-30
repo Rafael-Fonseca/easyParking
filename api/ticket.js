@@ -4,13 +4,6 @@ module.exports = app => {
   table_tickets = 'tb_tickets'
 
   //Definição das funções desta rota
-  const time_limit = function (date) {
-    const ticket_day = new Date(date)
-    let diff = Math.abs(new Date() - ticket_day) //Dado em milisegundos
-    let days_diff = Math.ceil(diff / (1000 * 60 * 60 * 24))
-    return days_diff > 365 * 5 + 2 //5 anos + 2 dias para o pior caso.
-  }
-
   const create = async (req, res) => {
     try {
 
@@ -85,7 +78,17 @@ module.exports = app => {
 
   const del = async (req, res) => {
     try {
-      if (time_limit) {
+
+      let kwargs = {
+        table: table_tickets,
+        where: {pk_bar_code: req.body.target_pk_bar_code},
+        what: ['tme_start'],
+        mode: 'first'
+      }
+
+      const ticket_date = await app.api.dbHelper.select(kwargs)
+      
+      if (app.api.dbHelper.time_limit(ticket_date)) {
         app.api.dbHelper.del(table_tickets, { pk_bar_code: req.body.target_pk_bar_code })
         res.status(200).send()
 

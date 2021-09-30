@@ -107,4 +107,22 @@ module.exports = app => {
   app.route('/ticket_delete')
     .post(app.api.ticket.del)
 
+
+  // INICIO ROTAS --- SETTING
+  app.route('/setting_create')
+    .all(app.config.passport.authenticate())
+    .post(app.api.setting.create)
+
+  app.route('/setting_read')
+    .all(app.config.passport.authenticate())
+    .post(app.api.setting.read)
+
+  app.route('/setting_update')
+    .all(app.config.passport.authenticate())
+    .post(app.api.setting.create) //Perceba que chama create propositalmente
+
+
+  app.route('/setting_delete')
+    .post(app.api.setting.del)
+
 }
