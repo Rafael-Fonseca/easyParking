@@ -3,11 +3,6 @@ module.exports = app => {
   table_offers = 'tb_offers'
 
   //Definição das funções desta rota
-  const to_timestamp = function (miliseconds) {
-    //TODO: Está considerando outro timezone, arrumar para TZ BR
-    return new Date(miliseconds).toISOString()
-  }
-
   const create = async (req, res) => {
 
     try {
@@ -28,8 +23,8 @@ module.exports = app => {
           offer_data = {
             fk_companies_offers: req.body.fk_companies_offers,
             fk_users_offers: pk_requester,
-            tme_begin: to_timestamp(req.body.tme_begin),
-            tme_end: to_timestamp(req.body.tme_end),
+            tme_begin: app.api.dbHelper.to_timestamp(req.body.tme_begin),
+            tme_end: app.api.dbHelper.to_timestamp(req.body.tme_end),
             //img: req.body.img
             is_active: true,
           }
@@ -83,12 +78,12 @@ module.exports = app => {
           update_data.fk_companies_offers = req.body.fk_companies_offers
 
         if (req.body.tme_begin !== undefined)
-          update_data.tme_begin = to_timestamp(req.body.tme_begin)
+          update_data.tme_begin = app.api.dbHelper.to_timestamp(req.body.tme_begin)
 
         update_data.fk_users_offers = pk_requester
 
         if (req.body.tme_end !== undefined)
-          update_data.tme_end = to_timestamp(req.body.tme_end)
+          update_data.tme_end = app.api.dbHelper.to_timestamp(req.body.tme_end)
 
         if (req.body.img !== undefined)
           update_data.img = req.body.img

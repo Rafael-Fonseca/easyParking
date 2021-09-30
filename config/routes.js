@@ -46,15 +46,15 @@ module.exports = app => {
     .all(app.config.passport.authenticate())
     .post(app.api.card.create)
 
-    app.route('/cards_read')
+  app.route('/cards_read')
     .all(app.config.passport.authenticate())
     .post(app.api.card.read)
 
-    app.route('/cards_update')
+  app.route('/cards_update')
     .all(app.config.passport.authenticate())
     .put(app.api.card.update)
 
-    app.route('/cards_delete')
+  app.route('/cards_delete')
     .all(app.config.passport.authenticate())
     .delete(app.api.card.del)
 
@@ -64,15 +64,15 @@ module.exports = app => {
     .all(app.config.passport.authenticate())
     .post(app.api.company.create)
 
-    app.route('/company_read')
+  app.route('/company_read')
     .all(app.config.passport.authenticate())
     .post(app.api.company.read)
 
-    app.route('/company_update')
+  app.route('/company_update')
     .all(app.config.passport.authenticate())
     .put(app.api.company.update)
 
-    app.route('/company_delete')
+  app.route('/company_delete')
     .all(app.config.passport.authenticate())
     .post(app.api.company.del)
 
@@ -82,21 +82,29 @@ module.exports = app => {
     .all(app.config.passport.authenticate())
     .post(app.api.offer.create)
 
-    app.route('/offer_read')
+  app.route('/offer_read')
     .get(app.api.offer.read)
 
-    app.route('/offer_update')
+  app.route('/offer_update')
     .all(app.config.passport.authenticate())
     .put(app.api.offer.update)
 
-    app.route('/offer_delete')
+  app.route('/offer_delete')
     .all(app.config.passport.authenticate())
     .post(app.api.offer.del)
 
 
-  // ------------- EXEMPLO!!!!!!!!!!!
-  // app.route('/tasks/:id/toggle')
-  //     .all(app.config.passport.authenticate())
-  //     .put(app.api.task.toggleTask)
-  //     .delete(app.api.task.remove)
+  // INICIO ROTAS --- TICKET
+  app.route('/ticket_create')
+    .post(app.api.ticket.create)
+
+  app.route('/ticket_read')
+    .post(app.api.ticket.read)
+
+  app.route('/ticket_update')
+    .put(app.api.ticket.update)
+
+  app.route('/ticket_delete')
+    .post(app.api.ticket.del)
+
 }

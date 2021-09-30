@@ -16,55 +16,6 @@ describe("Test payment.js", () => {
 
 })
 */
-//TODO: Teste ticket.js
-/*
-
-describe("Test ticket.js", () => {
-
-    test("Deve retornar statusCode 200 se conseguir persistir um novo ticket no BD", () => {
-        // TODO: O teste
-        let recebi_do_sistema = 0
-        expect(recebi_do_sistema).toEqual('O que eu espero receber')
-    })
-
-    test("Deve retornar statusCode 200 se conseguir alterar um ticket existente no BD", () => {
-        // TODO: O teste
-        let recebi_do_sistema = 0
-        expect(recebi_do_sistema).toEqual('O que eu espero receber')
-    })
-
-    test("Deve retornar statusCode 200 se conseguir recuperar um ticket existente no BD", () => {
-        // TODO: O teste
-        let recebi_do_sistema = 0
-        expect(recebi_do_sistema).toEqual('O que eu espero receber')
-    })
-
-    test("Deve retornar statusCode 200 se conseguir remover um ticket no BD", () => {
-        // TODO: O teste
-        let recebi_do_sistema = 0
-        expect(recebi_do_sistema).toEqual('O que eu espero receber')
-    })
-
-    test("Deve retornar statusCode 400 se não conseguir persistir um ticket no BD", () => {
-        // TODO: O teste
-        let recebi_do_sistema = 0
-        expect(recebi_do_sistema).toEqual('O que eu espero receber')
-    })
-
-    test("Deve retornar statusCode 400 se não conseguir recuperar um ticket no BD", () => {
-        // TODO: O teste
-        let recebi_do_sistema = 0
-        expect(recebi_do_sistema).toEqual('O que eu espero receber')
-    })
-
-    test("Deve retornar statusCode 400 se não conseguir alterar um ticket no BD", () => {
-        // TODO: O teste
-        let recebi_do_sistema = 0
-        expect(recebi_do_sistema).toEqual('O que eu espero receber')
-    })
-
-})
-*/
 
 
 //TODO: Teste settings.js

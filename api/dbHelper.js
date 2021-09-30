@@ -87,5 +87,10 @@ module.exports = app => {
     }
   }
 
-  return { select, insert, update, del}
+  const to_timestamp = function (miliseconds) {
+    //TODO: Está considerando outro timezone, arrumar para TZ BR
+    return new Date(miliseconds).toISOString()
+  }
+
+  return { select, insert, update, del, to_timestamp}
 }
