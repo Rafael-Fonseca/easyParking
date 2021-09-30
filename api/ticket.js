@@ -88,7 +88,7 @@ module.exports = app => {
 
       const ticket_date = await app.api.dbHelper.select(kwargs)
       
-      if (app.api.dbHelper.time_limit(ticket_date)) {
+      if (app.api.dbHelper.time_limit(ticket_date.tme_start)) {
         app.api.dbHelper.del(table_tickets, { pk_bar_code: req.body.target_pk_bar_code })
         res.status(200).send()
 
