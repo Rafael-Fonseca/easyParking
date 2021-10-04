@@ -4,7 +4,7 @@ import { StatusBar } from 'expo-status-bar';
 import commonStyles from '../commonStyles';
 
 
-export default class Login extends Component {
+export default class Initial extends Component {
 
   render() {
     return (
