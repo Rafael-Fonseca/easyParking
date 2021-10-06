@@ -69,8 +69,8 @@ module.exports = app => {
       }
 
       //DEVOLVA TODOS OS CARTÕES DESTE REQUISITANTE
-      await app.api.dbHelper.select(kwargs)
-      res.status(200).send()
+      cards = await app.api.dbHelper.select(kwargs)
+      res.status(200).json(cards)
 
     } catch (err) {
       console.log('\n\nEEEEEEERRRRROOOOO!!!\n\ncard.js - read\t', err)
@@ -82,7 +82,7 @@ module.exports = app => {
     try {
 
       //DESCUBRA QUEM É O REQUISITANTE
-      pk_requester = app.api.authHelper.get_pk_user(req)
+      const pk_requester = app.api.authHelper.get_pk_user(req)
 
       //SE TARGET_PK_CARD POSSUI FK_USERS_CARD === PK_REQUESTER DBHELPER(cardFromUser)
       if (await card_from_user(req.body.pk_card, pk_requester)) {
@@ -113,7 +113,7 @@ module.exports = app => {
         res.status(200).send()
 
       } else {
-        
+
         //REJEITE ESTA REQUISIÇÃO, APENAS O DONO DO CARTÃO PODE REALIZAR ALTERAÇÕES
         res.status(400).send('Apenas o dono do cartão pode realizar esta operação')
       }
@@ -124,7 +124,7 @@ module.exports = app => {
   }
 
   const del = async (req, res) => {
-    
+
     try {
 
       //DESCOBRIR O REQUERENTE
@@ -132,12 +132,12 @@ module.exports = app => {
 
       //CONFERIR SE O CARTÃO A SER DELETADO É DO REQUERENTE
       if (await card_from_user(req.body.pk_card, pk_requester)) {
-        
+
         //SE SIM, DELETE E INFORME QUE A REQUISIÇÃO FOI ACEITA
-        app.api.dbHelper.del(table_cards, {pk_card: req.body.pk_card})
+        app.api.dbHelper.del(table_cards, { pk_card: req.body.pk_card })
         res.status(200).send()
 
-      }else {
+      } else {
         //SE NÃO, NEGUE A REQUISIÇÃO
         res.status(400).send('Apenas o dono do cartão pode realizar esta ação.')
       }

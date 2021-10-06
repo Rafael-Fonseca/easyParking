@@ -88,7 +88,7 @@ const mainRoutes = {
 }
 
 const mainNavigator = createSwitchNavigator(mainRoutes,{
-    initialRouteName: 'AdmLogged'
+    initialRouteName: 'Auth'
 })
 
 export default createAppContainer(mainNavigator)

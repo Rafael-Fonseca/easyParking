@@ -31,7 +31,7 @@ export default class AdmLogged extends Component {
     this.props.navigation.navigate('GerCompanies')
   }
   logout = () => {
-    Alert.alert('Retirar autorização do cabeçalho')
+    delete axios.defaults.headers.common["Authorization"]
     this.props.navigation.navigate('Auth')
   }
 

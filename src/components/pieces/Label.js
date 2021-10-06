@@ -1,3 +1,8 @@
+// Importações do Back end
+import axios from 'axios'
+import { server, showError, showSuccess } from '../../code/common';
+
+// Importações do Front end
 import React from "react"
 import {
   Text,
@@ -5,21 +10,23 @@ import {
   StyleSheet,
   Alert,
 } from "react-native"
-
 import commonStyles from '../commonStyles'
 import ImgButton from "./ImgButton"
 
 export default props => {
 
   const editCard = () => {
-    Alert.alert('Recupera as informações do BD e coloca no initialState!')
-    props.navigation.navigate('CreateCard')
+    props.navigation.navigate('CreateCard', props.card)
   }
   const deleteCard = () => {
-    Alert.alert('Retira as informações do BD e recarrega a página!')
-    props.navigation.navigate('GerCard')
+    axios.post(`${server}/cards_delete`, props.card)
+      .then(() => {
+        showSuccess('Cartão deletado com sucesso!')
+        props.navigation.navigate('Logged')
+      })
+      .catch(e => showError(e))
   }
-  
+
   const stylesLabel = []
   const stylesText = []
 
@@ -60,7 +67,7 @@ const styles = StyleSheet.create({
     paddingBottom: '5%',
   },
 
-  view_images:{
+  view_images: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingLeft: '10%',

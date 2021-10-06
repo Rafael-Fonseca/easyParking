@@ -18,9 +18,25 @@ import Buttons from '../pieces/Buttons';
 
 export default class Logged extends Component {
 
-  gerCards = () => {
-    this.props.navigation.navigate('GerCards')
+  gerCards = async () => {
+    try {
+      const res = await axios.post(`${server}/cards_read`)
+      let objListCards = res.data
+
+      let objCards = {}
+      for (var i = 0; i < objListCards.length; i++)
+        objCards[i] = objListCards[i]
+
+    this.props.navigation.navigate('GerCards', objCards)
+
+    } catch (err) {
+      showError(err)
+    }
   }
+
+
+
+
   dayOffer = () => {
     this.props.navigation.navigate('DayOffer')
   }
@@ -32,7 +48,7 @@ export default class Logged extends Component {
     this.props.navigation.navigate('Logged')
   }
   logout = () => {
-    Alert.alert('Retirar autorização do cabeçalho')
+    delete axios.defaults.headers.common["Authorization"]
     this.props.navigation.navigate('Auth')
   }
 
@@ -54,12 +70,12 @@ export default class Logged extends Component {
           </View>
         </View>
 
-        <View style={{flexDirection: 'row'}}>
+        <View style={{ flexDirection: 'row' }}>
           <View>
-          <Buttons title={`Gerar\nTicket!`} out onClick={this.createTicket} />
+            <Buttons title={`Gerar\nTicket!`} out onClick={this.createTicket} />
           </View>
-          <View style={{marginLeft: '20%'}}>
-          <Buttons title={`\nSair`} out onClick={this.logout}/>
+          <View style={{ marginLeft: '20%' }}>
+            <Buttons title={`\nSair`} out onClick={this.logout} />
           </View>
         </View>
       </SafeAreaView>

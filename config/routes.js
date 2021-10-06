@@ -52,11 +52,11 @@ module.exports = app => {
 
   app.route('/cards_update')
     .all(app.config.passport.authenticate())
-    .put(app.api.card.update)
+    .post(app.api.card.update)
 
   app.route('/cards_delete')
     .all(app.config.passport.authenticate())
-    .delete(app.api.card.del)
+    .post(app.api.card.del)
 
 
   // INICIO ROTAS --- COMPANY

@@ -48,11 +48,11 @@ export default class Login extends Component {
       password: this.state.password
       // confirmPassword: `${this.state.confirmPassword}`,
     })
-    .then(()=> {
-      showSuccess('Usuário cadastro!')
-      this.setState({ ...initialState })
-    })
-    .catch(e => showError(e))
+      .then(() => {
+        showSuccess('Usuário cadastro!')
+        this.setState({ ...initialState })
+      })
+      .catch(e => showError(e))
   }
 
   signin = async () => {
@@ -63,8 +63,12 @@ export default class Login extends Component {
       })
 
       axios.defaults.headers.common['Authorization'] = `bearer ${res.data.token}`
-      this.props.navigation.navigate('Logged')
-    }catch(err){
+
+      if (res.data.role === 'admin')
+        this.props.navigation.navigate('AdmLogged')
+      else
+        this.props.navigation.navigate('Logged')
+    } catch (err) {
       showError(err)
     }
   }
@@ -93,11 +97,15 @@ export default class Login extends Component {
           <TextInput placeholder='E-mail'
             value={this.state.mail}
             style={commonStyles.input}
+            keyboardType='email-address'
+            autoCapitalize='none'
             onChangeText={mail => this.setState({ mail })} />
 
           <TextInput placeholder='Senha'
             value={this.state.password}
             style={commonStyles.input}
+            secureTextEntry={true}
+            keyboardType = 'numeric'
             onChangeText={password => this.setState({ password })} />
 
           {this.state.stageNew &&

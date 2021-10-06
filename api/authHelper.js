@@ -5,6 +5,7 @@ module.exports = app => {
 
   function get_pk_user(req) {
     var payload = jwt.decode(req.get('Authorization').slice(7), authSecret)
+    // console.log('\n\n\n\nSO FAR SO GOOD\n\n\n\n', payload.pk_user)
     return payload.pk_user
   }
 
