@@ -32,12 +32,12 @@ module.exports = app => {
         //CAPTURA PK DO REQUERENTE
         const pk_requester = app.api.authHelper.get_pk_user(req)
 
-        //MONTA OBJETO A SER INSERIDO NO BD
+        //MONTA OBJETO A SER INSERIDO NO BD 
         const card_data = {
           fk_users_card: pk_requester,
-          num_cd: `${req.body.num_cd}`,
-          nme_cd_holder: `${req.body.nme_cd_holder}`,
-          validity: `${req.body.validity}`,
+          num_cd: `${app.api.securityHelper.encrypt(req.body.num_cd)}`,
+          nme_cd_holder: `${app.api.securityHelper.encrypt(req.body.nme_cd_holder)}`,
+          validity: `${app.api.securityHelper.encrypt(req.body.validity)}`,
           credit: `${req.body.credit}`,
           nme_cd: req.body.nme_cd || req.body.num_cd.slice(-4),
         }
@@ -70,6 +70,17 @@ module.exports = app => {
 
       //DEVOLVA TODOS OS CARTÕES DESTE REQUISITANTE
       cards = await app.api.dbHelper.select(kwargs)
+
+      cards.forEach(function (card) {
+        card.num_cd = app.api.securityHelper.decrypt(card.num_cd)
+        card.validity = app.api.securityHelper.decrypt(card.validity)
+        card.nme_cd_holder = app.api.securityHelper.decrypt(card.nme_cd_holder)
+      })
+      
+      console.log('\n\n\nCards', cards, '\n\n\n')
+
+
+
       res.status(200).json(cards)
 
     } catch (err) {
