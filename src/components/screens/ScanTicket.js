@@ -1,128 +1,56 @@
-// Importações do Back end
-import axios from 'axios'
-import { server, showError, showSuccess } from '../../code/common';
-
-
-// Importações do Front end
-import React, { Component, useState, useEffect } from 'react';
-import { StatusBar } from 'expo-status-bar';
+import React, { useState, useEffect } from 'react';
+import { Text, View, StyleSheet, Button } from 'react-native';
+import { BarCodeScanner } from 'expo-barcode-scanner';
 import commonStyles from '../commonStyles';
-import {
-  SafeAreaView,
-  Text,
-  View,
-  Alert,
-  TouchableOpacity,
-} from "react-native"
-import Buttons from '../pieces/Buttons';
-import { Camera } from 'expo-camera';
+import BackButton from '../pieces/BackButton';
 
-const initialState = {
-  credit: [{
-    id: '1',
-    label: 'Débito',
-    value: 'false',
-    labelStyle: commonStyles.minorText,
 
-  }, {
-    id: '2',
-    label: 'Crédito',
-    value: 'true',
-    labelStyle: commonStyles.minorText,
+export default function App({ navigation }) {
+  const [hasPermission, setHasPermission] = useState(null);
+  const [scanned, setScanned] = useState(false);
 
-  }],
+  useEffect(() => {
+    (async () => {
+      const { status } = await BarCodeScanner.requestPermissionsAsync();
+      setHasPermission(status === 'granted');
+    })();
+  }, []);
 
+  const handleBarCodeScanned = ({ type, data }) => {
+    setScanned(true);
+    alert(`Bar code with type ${type} and data ${data} has been scanned!`);
+  };
+
+  if (hasPermission === null) {
+    return <Text>Requesting for camera permission</Text>;
+  }
+  if (hasPermission === false) {
+    return <Text>No access to camera</Text>;
+  }
+
+
+  return (
+    <View style={styles.container}>
+      <BarCodeScanner style={styles.container}
+        onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
+        style={StyleSheet.absoluteFillObject}
+      />
+      {scanned && <Button title={'Tap to Scan Again'} onPress={() => setScanned(false)} />}
+
+      <View style={[commonStyles.backOrNext, {
+        flex: 1,
+        flexDirection: 'column',
+        marginBottom: 20,
+        justifyContent: 'flex-end'
+      }]}>
+        <BackButton navigator={navigation} destiny='Logged' />
+      </View>
+    </View>
+  );
 }
 
-
-
-export default class ScanTicket extends Component {
-  
-
-  state = {
-    ...initialState
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
   }
-
-  // onPress = credit => this.setState({ credit });
-
-  back = () => {
-    this.props.navigation.navigate('Logged')
-  }
-
-  render() {
-
-    return (
-      <SafeAreaView style={commonStyles.background}>
-        <StatusBar backgroundColor='#fff' />
-
-        <View style={commonStyles.container}>
-
-          <Text style={commonStyles.title}>
-            Leia o Ticket do estacionamento:
-          </Text>
-
-          <Text style={commonStyles.title}>Não estou conseguindo</Text>
-          <View style={{ flex: 1, backgroundColor: '#fff' }}>
-            <Camera style={{ flex: 1 }} type={Camera.Constants.Type.back}>
-            
-            </Camera>
-          </View>
-          <Text style={commonStyles.title}>abrir a câmera ainda</Text>
-
-          <View style={commonStyles.backOrNext}>
-            <Buttons back white title='Voltar' onClick={this.back} />
-          </View>
-
-        </View>
-
-      </SafeAreaView>
-    )
-  }
-}
-
-
-// >>>>>>>>>>>>>>>>>>>>>>>>>>
-
-// import React, { useState, useEffect } from 'react';
-// import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-// import { Camera } from 'expo-camera';
-
-// export default function App() {
-  // const [hasPermission, setHasPermission] = useState(null);
-  // const [type, setType] = useState(Camera.Constants.Type.back);
-
-  // useEffect(() => {
-  //   (async () => {
-  //     const { status } = await Camera.requestPermissionsAsync();
-  //     setHasPermission(status === 'granted');
-  //   })();
-  // }, []);
-
-  // if (hasPermission === null) {
-  //   return <View />;
-  // }
-  // if (hasPermission === false) {
-  //   return <Text>No access to camera</Text>;
-  // }
-//   return (
-//     <View style={styles.container}>
-      // <Camera style={styles.camera} type={type}>
-      //   <View style={styles.buttonContainer}>
-      //     <TouchableOpacity
-      //       style={styles.button}
-      //       onPress={() => {
-      //         setType(
-      //           type === Camera.Constants.Type.back
-      //             ? Camera.Constants.Type.front
-      //             : Camera.Constants.Type.back
-      //         );
-      //       }}>
-      //       <Text style={styles.text}> Flip </Text>
-      //     </TouchableOpacity>
-      //   </View>
-      // </Camera>
-//     </View>
-//   );
-// }
-
-// const styles = StyleSheet.create({ ... }); 
+});

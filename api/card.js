@@ -76,11 +76,6 @@ module.exports = app => {
         card.validity = app.api.securityHelper.decrypt(card.validity)
         card.nme_cd_holder = app.api.securityHelper.decrypt(card.nme_cd_holder)
       })
-      
-      console.log('\n\n\nCards', cards, '\n\n\n')
-
-
-
       res.status(200).json(cards)
 
     } catch (err) {

@@ -18,6 +18,7 @@
     "consign": "^0.1.6",
     "cors": "^2.8.5",
     "expo": "~42.0.1",
+    "expo-barcode-scanner": "^10.2.2",
     "expo-camera": "^11.2.2",
     "expo-status-bar": "~1.0.4",
     "express": "^4.17.1",
