@@ -96,7 +96,7 @@ module.exports = app => {
 
   // INICIO ROTAS --- TICKET
   app.route('/ticket_create')
-    .post(app.api.ticket.create)
+    .get(app.api.ticket.create)
 
   app.route('/ticket_read')
     .post(app.api.ticket.read)
@@ -116,6 +116,9 @@ module.exports = app => {
   app.route('/setting_read')
     .all(app.config.passport.authenticate())
     .post(app.api.setting.read)
+
+  app.route('/get_cost')
+    .get(app.api.setting.getCost)
 
   app.route('/setting_update')
     .all(app.config.passport.authenticate())

@@ -27,7 +27,7 @@ export default class Logged extends Component {
       for (var i = 0; i < objListCards.length; i++)
         objCards[i] = objListCards[i]
 
-    this.props.navigation.navigate('GerCards', objCards)
+      this.props.navigation.navigate('GerCards', objCards)
 
     } catch (err) {
       showError(err)
@@ -40,13 +40,22 @@ export default class Logged extends Component {
   dayOffer = () => {
     this.props.navigation.navigate('DayOffer')
   }
+
   scanTicket = () => {
     this.props.navigation.navigate('ScanTicket')
   }
-  createTicket = () => {
-    Alert.alert('Gerar ticket e recarregar a página')
-    this.props.navigation.navigate('Logged')
+
+  createTicket = async () => {
+    try {
+      await axios.get(`${server}/ticket_create`)
+      Alert.alert('Ticket gerado e página recarregada')
+      this.props.navigation.navigate('Logged')
+    } catch (err) {
+      showError(err)
+    }
+
   }
+
   logout = () => {
     delete axios.defaults.headers.common["Authorization"]
     this.props.navigation.navigate('Auth')

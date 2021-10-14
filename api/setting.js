@@ -62,7 +62,7 @@ module.exports = app => {
           })
 
           if (Object.keys(result).length > 0) {
-            res.status(200).send()
+            res.status(200).json(result)
             return result
           } else {
             res.status(200).send('Ainda não existem configurações no banco de dados.')
@@ -76,7 +76,7 @@ module.exports = app => {
           })
 
           if (Object.keys(result).length > 0) {
-            res.status(200).send()
+            res.status(200).json(result)
             return result
           } else {
             res.status(400).send('Configuração não encontrada na base de dados')
@@ -94,7 +94,22 @@ module.exports = app => {
     }
   }
 
-  //A FUNÇÃO, ABAIXO, NÃO EXISTIRÁ NO SISTEMA
+  const getCost = async (req, res) => {
+    try {
+      const result = await app.api.dbHelper.select({
+        table: table_settings,
+        where: {is_active: true},
+        what:['min_cost']
+      })
+      res.status(200).json(result)
+
+    }catch (err){
+      console.log('\n\nEEEEEEERRRRROOOOO!!!\n\nsetting.js - getCost\n\n', err)
+      res.status(400).json(err)
+    }
+  }
+  //A FUNÇÃO, ABAIXO, NÃO EXISTIRÁ NO SISTEMA, uma vez que o create garante
+  // que apenas a ultima configuração estará ativa.
   // const update = async (req, res) => {  
   //   try {
 
@@ -131,5 +146,5 @@ module.exports = app => {
     }
   }
 
-  return { create, read, /*update,*/ del }
+  return { create, read, /*update,*/ del, getCost }
 }

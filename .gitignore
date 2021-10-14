@@ -1,4 +1,5 @@
 node_modules/
+tickets/
 .expo/
 *.env
 knexfile.js

@@ -7,3 +7,5 @@ to:     import App from '../../src/App';
 
 3° - Update the files env_sample.env,
 knexfile_sample.js
+
+4° - In the root of your project, create one folder called tickets
