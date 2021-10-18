@@ -1,6 +1,6 @@
 // Importações do Back end
 import axios from 'axios'
-import { server, showError, showSuccess } from '../../code/common';
+import { server, showError, showSuccess, paymentServer } from '../../code/common';
 
 // Importações do Front end
 import React from "react"
@@ -26,6 +26,22 @@ export default props => {
       })
       .catch(e => showError(e))
   }
+  const selected = async () => {
+    const res = await axios.post(`${paymentServer}/`, props.card)
+    if (res.status === 200) {
+        await axios.post(`${server}/ticket_update`, {
+          pk_bar_code: props.pk_bar_code,})
+
+      props.navigation.navigate('CheckOut', {
+        cost: props.cost,
+        paid: true,
+      })
+    } else {
+      props.navigation.navigate('CheckOut', {
+        paid: false,
+      })
+    }
+  }
 
   const stylesLabel = []
   const stylesText = []
@@ -50,12 +66,19 @@ export default props => {
 
         </View>
       }
+
+      {props.payment &&
+        <View style={styles.view_images}>
+          <ImgButton path={selectIt} onClick={selected} />
+        </View>
+      }
     </View>
   )
 }
 
 const edit = require('../../../assets/edit.png')
 const del = require('../../../assets/delete.png')
+const selectIt = require('../../../assets/selected.png')
 
 const styles = StyleSheet.create({
   container: {

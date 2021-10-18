@@ -100,7 +100,7 @@ module.exports = app => {
     .post(app.api.ticket.read)
 
   app.route('/ticket_update')
-    .put(app.api.ticket.update)
+    .post(app.api.ticket.update)
 
   app.route('/ticket_delete')
     .post(app.api.ticket.del)

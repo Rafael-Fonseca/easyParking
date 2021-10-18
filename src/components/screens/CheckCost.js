@@ -1,6 +1,6 @@
 // Importações do Back end
 import axios from 'axios'
-import { server, showError, showSuccess } from '../../code/common';
+import { server, showError, paymentServer } from '../../code/common';
 
 
 // Importações do Front end
@@ -31,8 +31,23 @@ export default class CheckCost extends Component {
     })
   }
 
-  pass = () => {
-    Alert.alert('Apertou!')
+  selectCard = async () => {
+    try {
+      const res = await axios.post(`${server}/cards_read`)
+      let objListCards = res.data
+
+      let objCards = {}
+      for (var i = 0; i < objListCards.length; i++)
+        objCards[i] = objListCards[i]
+
+      this.props.navigation.navigate('SelectCard', {
+        objCards,
+        'cost': this.props.navigation.state.params.cost.toFixed(2),
+        'pk_bar_code': this.props.navigation.state.params.ticket.split(':')[1]
+      })
+    } catch (err) {
+      showError(err)
+    }
   }
 
   getTimes = async () => {
@@ -119,7 +134,7 @@ export default class CheckCost extends Component {
 
           <View style={commonStyles.bottomPanelContainer}>
             <Buttons title={`Efetuar pagamento`}
-              bot onClick={this.pass} />
+              bot onClick={this.selectCard} />
           </View>
         </View>
 

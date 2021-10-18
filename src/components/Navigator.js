@@ -16,6 +16,8 @@ import checkCost from './screens/CheckCost'
 import payment from './screens/Payment'
 import createCompany from './screens/CreateCompany'
 import gerCompanies from './screens/GerCompanies'
+import selectCard from './screens/SelectCard'
+import checkOut from './screens/CheckOut'
 
 
 const mainRoutes = {
@@ -82,6 +84,14 @@ const mainRoutes = {
     GerCompanies: {
         name: 'GerCompanies',
         screen: gerCompanies
+    },
+    SelectCard: {
+        name: 'SelectCard',
+        screen: selectCard
+    },
+    CheckOut: {
+        name: 'CheckOut',
+        screen: checkOut
     },
 }
 

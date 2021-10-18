@@ -41,7 +41,7 @@ module.exports = app => {
           table: table_tickets,
           where: { pk_bar_code: req.body.target_pk_bar_code },
         }) //result igual um array de objetos.
-      }else{
+      } else {
         result = await app.api.dbHelper.select({
           table: table_tickets,
           where: { pk_bar_code: req.body.target_pk_bar_code },
@@ -66,18 +66,18 @@ module.exports = app => {
 
         //INICIO CONSTRUÇÃO update_data - Este objeto indica o que será alterado
         let update_data = {}
-        if (req.body.fk_user !== undefined)
-          update_data.fk_user = req.body.fk_user
+        // if (req.body.fk_user !== undefined)
+        update_data.fk_user = app.api.authHelper.get_pk_user(req)
 
-        if (req.body.tme_end !== undefined)
-          update_data.tme_end = app.api.dbHelper.to_timestamp(req.body.tme_end)
+        // if (req.body.tme_end !== undefined)
+        update_data.tme_end = app.api.dbHelper.to_timestamp(Date.now())
 
-        if (req.body.tme_exit !== undefined)
-          update_data.tme_exit = app.api.dbHelper.to_timestamp(req.body.tme_exit)
+        // if (req.body.tme_exit !== undefined)
+        // update_data.tme_exit = app.api.dbHelper.to_timestamp(req.body.tme_exit)
         // FIM DA CONSTRUÇÃO update_data
 
         //Prepara objeto que representa a cláusula where
-        const where = { pk_bar_code: req.body.target_pk_bar_code }
+        const where = { pk_bar_code: req.body.pk_bar_code }
 
         //ATENDE A REQUISIÇÃO
         app.api.dbHelper.update(table_tickets, update_data, where)
