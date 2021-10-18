@@ -1,4 +1,3 @@
-// Este é o index do frontend
 // Importações do Front end
 import { StatusBar } from 'expo-status-bar';
 import React, { Component } from 'react';

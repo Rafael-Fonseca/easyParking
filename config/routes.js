@@ -1,7 +1,5 @@
 //Configura rotas
 module.exports = app => {
-  /*TODO: Criar as funções para as rotas, enquanto elas não existem
-          elas crasham o código, por isso estão comentadas*/
 
   // INICIO ROTAS HOME - SIGN UP - SIGN IN
   // app.get('/', app.api.general.ok)

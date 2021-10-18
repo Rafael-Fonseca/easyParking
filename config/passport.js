@@ -17,7 +17,8 @@ module.exports = app => {
       .then(user => {
         if (user) {
           done(null, {
-            pk_user: user.pk_user, mail: user.mail,
+            pk_user: user.pk_user,
+            mail: user.mail,
             fk_roles_user: user.fk_roles_user
           })
         } else {

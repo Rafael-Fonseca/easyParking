@@ -1,5 +1,3 @@
-//Todo: Componente que realiza a navegação entre as telas
-// import React from "react"; // DESCOMENTAR CASO USE JFX
 import {createAppContainer, createSwitchNavigator} from 'react-navigation'
 
 import auth from './screens/Auth'
