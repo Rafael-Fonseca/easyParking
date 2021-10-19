@@ -36,9 +36,12 @@ export default class GerCompanies extends Component {
   back = () => {
     this.props.navigation.navigate('AdmLogged')
   }
-  confirm = () => {
-    Alert.alert('espera resultado do BD e recarrega a página')
-    this.props.navigation.navigate('GerCompanies')
+  confirm = async () => {
+    await axios.post(`${server}/company_read`, {
+      cnpj: this.state.cnpj
+    }).then(res => {
+      this.props.navigation.navigate('UpdateCompany', res.data)
+    })
   }
 
   render() {
@@ -49,7 +52,7 @@ export default class GerCompanies extends Component {
         <View style={commonStyles.container}>
 
         <TouchableOpacity onPress={this.createCompany}>
-          <Label opacity='1' black title='Criar nova oferta' />
+          <Label opacity='1' black title='Inserir nova empresa' />
         </TouchableOpacity>
 
           <Text style={commonStyles.title}>

@@ -29,7 +29,7 @@ module.exports = app => {
 
           //ATENDA A REQUISIÇÃO
           await app.api.dbHelper.insert(table_settings, setting_create)
-          res.status(200).send()
+          res.status(200).send('Configuração atualizada!')
 
         } else {
           //MIN_COST NÃO PREENCHIDO, NEGUE A REQUISIÇÃO

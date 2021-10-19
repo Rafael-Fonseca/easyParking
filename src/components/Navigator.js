@@ -18,6 +18,7 @@ import createCompany from './screens/CreateCompany'
 import gerCompanies from './screens/GerCompanies'
 import selectCard from './screens/SelectCard'
 import checkOut from './screens/CheckOut'
+import updateCompany from './screens/UpdateCompany'
 
 
 const mainRoutes = {
@@ -92,6 +93,10 @@ const mainRoutes = {
     CheckOut: {
         name: 'CheckOut',
         screen: checkOut
+    },
+    UpdateCompany: {
+        name: 'UpdateCompany',
+        screen: updateCompany
     },
 }
 

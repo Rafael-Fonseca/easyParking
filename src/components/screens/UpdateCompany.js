@@ -14,7 +14,6 @@ import {
   View,
   Alert,
 } from "react-native"
-import RadioGroup from 'react-native-radio-buttons-group'
 import Buttons from '../pieces/Buttons';
 
 const initialState = {
@@ -33,10 +32,20 @@ export default class CreateCompany extends Component {
     this.props.navigation.navigate('AdmLogged')
   }
 
+  del = async () => {
+    await axios.post(`${server}/company_delete`, {
+      target_cnpj: this.props.navigation.state.params.cnpj,
+    }).then(res => {
+      this.props.navigation.navigate('AdmLogged')
+      Alert.alert(res.data)
+    })
+  }
+
   confirm = async () => {
-    await axios.post(`${server}/company_create`, {
+    await axios.post(`${server}/company_update`, {
       cnpj: this.state.cnpj,
       nme_company: this.state.nme_company,
+      target_cnpj: this.props.navigation.state.params.cnpj,
     }).then(res => {
       this.props.navigation.navigate('AdmLogged')
       Alert.alert(res.data)
@@ -51,18 +60,22 @@ export default class CreateCompany extends Component {
         <View style={commonStyles.container}>
 
           <Text style={commonStyles.title}>
-            Cadastrar Empresa
+            Alterar Empresa
           </Text>
 
-          <TextInput placeholder='CNPJ'
+          <TextInput placeholder='Insira o cnpj: '
             value={this.state.cnpj}
             style={commonStyles.input}
             onChangeText={cnpj => this.setState({ cnpj })} />
 
-          <TextInput placeholder='Nome da empresa'
+          <TextInput placeholder='Insira o nome da empresa: '
             value={this.state.nme_company}
-            style={[commonStyles.input, {marginTop: '6%'}]}
+            style={[commonStyles.input, { marginTop: '6%' }]}
             onChangeText={nme_company => this.setState({ nme_company })} />
+
+          <View style={{marginTop:'10%'}}>
+            <Buttons back white title='Deletar empresa' onClick={this.del} />
+          </View>
 
           <View style={commonStyles.backOrNext}>
             <Buttons back white title='Cancelar' onClick={this.back} />

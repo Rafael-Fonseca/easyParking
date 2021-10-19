@@ -114,7 +114,12 @@ module.exports = app => {
       // FIM DA CONSTRUÇÃO update_data
 
       //Prepara objeto que representa a cláusula where
-      const where = { pk_user: req.body.target_pk_user }
+      let where = {}
+      if(req.body.target_pk_user !== undefined){
+        where = {pk_user: req.body.target_pk_user}
+      }else if(req.body.target_cpf !== undefined){
+        where = {cpf: req.body.target_cpf}
+      }
 
       // REQUISITANTE QUER ALTERAR O PRÓPRIO CADASTRO OU O DE OUTRO?
       if (pk_requester === req.body.target_pk_user) {
@@ -144,7 +149,7 @@ module.exports = app => {
           } else {
             //ADMIN TENTANDO ALTERAR A FUNÇÃO DE OUTRO USUÁRIO, ACEITE A REQUISIÇÃO
             app.api.dbHelper.update(table_users, update_data, where)
-            res.status(200).send()
+            res.status(200).send('Usuário alterado com sucesso!')
           }
 
         } else {

@@ -4,7 +4,7 @@ import { server, showError, showSuccess } from '../../code/common';
 
 
 // Importações do Front end
-import React, { Component, useState } from 'react';
+import React, { Component } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import commonStyles from '../commonStyles';
 import {
@@ -17,8 +17,7 @@ import {
 import RadioGroup from 'react-native-radio-buttons-group'
 import Buttons from '../pieces/Buttons';
 
-// const textStyle = {color: '#fFF', fontSize: 15}
-
+//TODO: 
 const initialState = {
   cpf: '',
   role: [{
@@ -55,9 +54,14 @@ export default class GerUsers extends Component {
   back = () => {
     this.props.navigation.navigate('AdmLogged')
   }
-  confirm = () => {
-    Alert.alert('Altere o usuário')
-    this.props.navigation.navigate('AdmLogged')
+  confirm = async () => {
+    await axios.post(`${server}/user_update`, {
+      target_cpf: this.state.cpf,
+      fk_roles_user: this.state.role.find(e => e.selected == true).id
+    }).then(res => {
+      this.props.navigation.navigate('AdmLogged')
+      Alert.alert(res.data)
+    })
   }
 
   render() {
@@ -86,13 +90,13 @@ export default class GerUsers extends Component {
             <RadioGroup
               radioButtons={this.state.role}
               onPress={this.onPress}
-              containerStyle = {commonStyles.radiusContainer}
+              containerStyle={commonStyles.radiusContainer}
             />
           </View>
 
           <View style={commonStyles.backOrNext}>
-            <Buttons back white title='Cancelar' onClick={this.back}/>
-            <Buttons next white title='Confirmar' onClick={this.confirm}/>
+            <Buttons back white title='Cancelar' onClick={this.back} />
+            <Buttons next white title='Confirmar' onClick={this.confirm} />
           </View>
 
         </View>

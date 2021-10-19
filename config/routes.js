@@ -14,7 +14,7 @@ module.exports = app => {
 
   app.route('/user_update')
     .all(app.config.passport.authenticate())
-    .put(app.api.user.update)
+    .post(app.api.user.update)
 
   app.route('/user_delete')
     .all(app.config.passport.authenticate())
@@ -68,7 +68,7 @@ module.exports = app => {
 
   app.route('/company_update')
     .all(app.config.passport.authenticate())
-    .put(app.api.company.update)
+    .post(app.api.company.update)
 
   app.route('/company_delete')
     .all(app.config.passport.authenticate())

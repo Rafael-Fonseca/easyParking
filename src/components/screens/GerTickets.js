@@ -21,7 +21,6 @@ import Buttons from '../pieces/Buttons';
 
 const initialState = {
   cost_min: '',
-
 }
 
 
@@ -31,14 +30,17 @@ export default class GerTickets extends Component {
     ...initialState
   }
 
-
   back = () => {
     this.props.navigation.navigate('AdmLogged')
   }
 
-  confirm = () => {
-    Alert.alert('Altere o custo do minuto')
-    this.props.navigation.navigate('AdmLogged')
+  confirm = async () => {
+    await axios.post(`${server}/setting_update`, {
+      min_cost: this.state.cost_min
+    }).then(res => {
+      this.props.navigation.navigate('AdmLogged')
+      Alert.alert(res.data)
+    })
   }
 
   render() {
