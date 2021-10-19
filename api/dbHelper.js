@@ -89,7 +89,7 @@ module.exports = app => {
 
   const to_timestamp = function (miliseconds) {
     //TODO: Está considerando outro timezone, arrumar para TZ BR
-    return new Date(miliseconds).toISOString()
+    return new Date(miliseconds).toLocaleString()
   }
 
   const time_limit = function (date) {

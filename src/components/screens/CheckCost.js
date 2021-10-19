@@ -122,7 +122,7 @@ export default class CheckCost extends Component {
 
         <Text style={commonStyles.title}>
           {this.props.navigation.state.params.cost ?
-            `R$ ${this.props.navigation.state.params.cost.toFixed(2)}` : 'Valor calculado à partir do bd'}
+            `R$ ${this.props.navigation.state.params.cost.toFixed(2)}` : '0,00'}
         </Text>
 
         <View style={commonStyles.panelContainer}>
