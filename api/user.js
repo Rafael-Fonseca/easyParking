@@ -18,6 +18,7 @@ module.exports = app => {
 
   const create = (req, res) => {
     //TODO: Refatorar quando confirm_password entrar na jogada
+    //TODO: Alterar o hard coded para buscar no banco o equivalente a fk do user padrão
     if (req.body.name !== undefined &&
       req.body.cpf !== undefined &&
       req.body.mail !== undefined &&
@@ -30,7 +31,7 @@ module.exports = app => {
           cpf: `${req.body.cpf}`,
           mail: `${req.body.mail}`,
           password: `${password}`,
-          fk_roles_user: req.body.fk_roles_user || 1,
+          fk_roles_user: req.body.fk_roles_user || 2,
           is_active: req.body.is_active || true,
         })
           .then(_ => res.status(204).send())
