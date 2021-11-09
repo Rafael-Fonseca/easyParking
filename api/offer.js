@@ -69,8 +69,6 @@ module.exports = app => {
   const read = async (req, res) => {
     try {
       const offers = await app.api.dbHelper.select({ table: table_offers })
-      // console.log('\n\nOFFER API!!! - READ\n\n', offers)
-
       try {
         for (var i = 0; i < offers.length; i++) {
           nme_company = await app.api.dbHelper.select({
@@ -104,7 +102,6 @@ module.exports = app => {
       const pk_requester = app.api.authHelper.get_pk_user(req)
 
       //É ADMINISTRADOR?
-      console.log('aqui?')
       if (await app.api.authHelper.is_user('admin', req)) {
 
         //INICIO CONSTRUÇÃO update_data - Este objeto indica o que será alterado
@@ -128,8 +125,6 @@ module.exports = app => {
         const where = { pk_offer: req.body.target_pk_offer }
 
         //ATENDE A REQUISIÇÃO
-        console.log('\n\nAntes de atender a requisição\n\nimg:\t', req.body.img)
-        console.log('\npk_offer:\t', req.body.target_pk_offer)
         app.api.dbHelper.update(table_offers, update_data, where)
         res.status(200).send('Oferta alterada com sucesso!')
 

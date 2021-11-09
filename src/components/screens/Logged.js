@@ -44,7 +44,6 @@ export default class Logged extends Component {
       for (var i = 0; i < objListOffers.length; i++)
         objOffers[i] = objListOffers[i]
 
-      // console.log(objOffers)
       this.props.navigation.navigate('DayOffer', objOffers)
 
     } catch (err) {

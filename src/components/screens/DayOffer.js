@@ -22,7 +22,6 @@ import Buttons from '../pieces/Buttons';
 export default class DayOffer extends Component {
 
   back = () => {
-    // console.log('DayOffer Props navigation state params:\t', this.props.navigation.state.params)
     this.props.navigation.navigate('Logged')
   }
 
