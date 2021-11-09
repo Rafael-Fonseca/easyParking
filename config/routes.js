@@ -85,7 +85,7 @@ module.exports = app => {
 
   app.route('/offer_update')
     .all(app.config.passport.authenticate())
-    .put(app.api.offer.update)
+    .post(app.api.offer.update)
 
   app.route('/offer_delete')
     .all(app.config.passport.authenticate())

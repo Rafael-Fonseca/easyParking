@@ -9,39 +9,45 @@ import {
 import commonStyles from '../commonStyles'
 import ImgButton from "./ImgButton"
 
+// Importações do Back end
+import axios from 'axios'
+import { server, showError, showSuccess } from '../../code/common';
+
+
 export default props => {
 
   const editOffer = () => {
-    Alert.alert('Recupera as informações do BD e coloca no initialState!')
-    props.navigation.navigate('CreateOffer')
+    props.navigation('CreateOffer', { first: true, 'offer': props.offer })
   }
-  const deleteOffer = () => {
-    Alert.alert('Retira as informações do BD e recarrega a página!')
-    props.navigation.navigate('GerOffer')
+  const deleteOffer = async () => {
+    try {
+      const res = await axios.post(`${server}/offer_delete`, {
+        'target_pk_offer': props.offer.pk_offer
+      })
+      props.navigation('AdmLogged')
+      Alert.alert(res.data)
+    } catch (err) {
+      console.log(err)
+    }
   }
 
   return (
     <View style={styles.container}>
-      <View style={{flexDirection: 'row'}}>
-      <Text style={commonStyles.buttonText}>{props.nme_company}</Text>
+      <View style={{ flexDirection: 'row' }}>
+        <Text style={commonStyles.buttonText}>{props.offer.nme_company}</Text>
 
-      {props.options &&
-        <View style={styles.view_images}>
+        {props.options &&
+          <View style={styles.view_images}>
 
-          <ImgButton path={edit} onClick={editOffer} />
-          <ImgButton path={del} onClick={deleteOffer} />
+            <ImgButton path={edit} onClick={editOffer} />
+            <ImgButton path={del} onClick={deleteOffer} />
 
-        </View>
-      }
+          </View>
+        }
       </View>
 
-      {props.path ?
-        <Image style={commonStyles.image}
-          source={props.path} />
-        :
-        <Image style={commonStyles.image}
-          source={require('../../../assets/logotype.png')} />
-      }
+      <Image style={commonStyles.boxImage}
+        source={{ uri: props.offer.img }} />
 
     </View>
   )
@@ -61,7 +67,7 @@ const styles = StyleSheet.create({
     paddingBottom: '5%',
   },
 
-  view_images:{
+  view_images: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingLeft: '45%',

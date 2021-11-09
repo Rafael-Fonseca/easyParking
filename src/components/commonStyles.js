@@ -126,6 +126,11 @@ const styles = StyleSheet.create({
         marginLeft: '4.5%',
     },
 
+    boxImage: {
+        width: 300,
+        height: 100,
+    },
+
     radiusContainer: {
         backgroundColor: 'rgba(255, 255, 255, 0.45)',
         borderRadius: 20,

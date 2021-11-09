@@ -35,10 +35,21 @@ export default class Logged extends Component {
   }
 
 
+  dayOffer = async () => {
+    try {
+      const res = await axios.get(`${server}/offer_read`)
+      let objListOffers = res.data
 
+      let objOffers = {}
+      for (var i = 0; i < objListOffers.length; i++)
+        objOffers[i] = objListOffers[i]
 
-  dayOffer = () => {
-    this.props.navigation.navigate('DayOffer')
+      // console.log(objOffers)
+      this.props.navigation.navigate('DayOffer', objOffers)
+
+    } catch (err) {
+      showError(err)
+    }
   }
 
   scanTicket = () => {

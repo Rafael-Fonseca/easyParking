@@ -19,42 +19,45 @@ import LabelOffer from '../pieces/LabelOffer'
 import Buttons from '../pieces/Buttons';
 
 
-const initialState = {
-  cost_min: '',
-}
-
-
 export default class GerOffers extends Component {
-
-  state = {
-    ...initialState
-  }
-
 
   back = () => {
     this.props.navigation.navigate('AdmLogged')
   }
   createOffer = () => {
-    this.props.navigation.navigate('CreateOffer')
+    this.props.navigation.navigate('CreateOffer', { 'first': true })
   }
 
   navigator = this.props.navigation
 
   render() {
+    let offers = []
+    for (let i = 0; i < Object.keys(this.props.navigation.state.params).length; i++) {
+      if (this.navigator.getParam(i).is_active) {
+        offers.push(
+          <LabelOffer
+            options
+            navigation={this.navigator.navigate}
+            offer={this.navigator.getParam(i)}
+            key={i}
+          />
+        )
+      }
+    }
+
     return (
       <SafeAreaView style={[commonStyles.background, { justifyContent: 'flex-start', paddingTop: '25%' }]}>
         <StatusBar backgroundColor='#fff' />
 
         <View style={commonStyles.container}>
 
-        <TouchableOpacity onPress={this.createOffer}>
-          <Label opacity='1' black title='Criar nova oferta' />
-        </TouchableOpacity>
+          <TouchableOpacity onPress={this.createOffer}>
+            <Label opacity='1' black title='Criar nova oferta' />
+          </TouchableOpacity>
 
-        <LabelOffer nme_company='Empresa 1' options navigation={this.navigator} />
-        <LabelOffer nme_company='Empresa 2' options/>
+          {offers}
 
-        <Buttons title={`\n Voltar`} white back onClick={this.back} />
+          <Buttons title={`\n Voltar`} white back onClick={this.back} />
 
         </View>
 

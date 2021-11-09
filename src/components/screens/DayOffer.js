@@ -22,10 +22,24 @@ import Buttons from '../pieces/Buttons';
 export default class DayOffer extends Component {
 
   back = () => {
+    // console.log('DayOffer Props navigation state params:\t', this.props.navigation.state.params)
     this.props.navigation.navigate('Logged')
   }
 
   render() {
+
+    let offers = []
+    for (let i = 0; i < Object.keys(this.props.navigation.state.params).length; i++) {
+      if (this.navigator.getParam(i).is_active) {
+        offers.push(
+          <LabelOffer
+            offer={this.props.navigation.getParam(i)}
+            key={i}
+          />
+        )
+      }
+    }
+
     return (
       <SafeAreaView style={[commonStyles.background, { justifyContent: 'flex-start', paddingTop: '25%' }]}>
         <StatusBar backgroundColor='#fff' />
@@ -35,10 +49,9 @@ export default class DayOffer extends Component {
             {`APROVEITE AS\nOFERTAS DE HOJE!!!`}
           </Text>
 
-          <LabelOffer nme_company='Empresa 1'/>
-          <LabelOffer nme_company='Empresa 2'/>
+          {offers}
 
-        <Buttons title={`\n Voltar`} white back onClick={this.back} />
+          <Buttons title={`\n Voltar`} white back onClick={this.back} />
 
 
 

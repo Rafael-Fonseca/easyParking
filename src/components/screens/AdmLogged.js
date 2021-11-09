@@ -21,8 +21,21 @@ export default class AdmLogged extends Component {
   gerUsers = () => {
     this.props.navigation.navigate('GerUsers')
   }
-  gerOffers = () => {
-    this.props.navigation.navigate('GerOffers')
+  gerOffers = async () => {
+    try {
+      const res = await axios.get(`${server}/offer_read`)
+      let objListOffers = res.data
+      
+
+      let objOffers = {}
+      for (var i = 0; i < objListOffers.length; i++)
+        objOffers[i] = objListOffers[i]
+
+      this.props.navigation.navigate('GerOffers', objOffers)
+
+    } catch (err) {
+      showError(err)
+    }
   }
   gerTickets = () => {
     this.props.navigation.navigate('GerTickets')
