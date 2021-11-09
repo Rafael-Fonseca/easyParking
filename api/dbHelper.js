@@ -23,10 +23,10 @@ module.exports = app => {
 
         }
 
-      }else{ // Where não foi definido, quero todos os resultados
-        if (kwargs.what === undefined) {
+      } else { //Where indefinido, quero todas as linhas
+        if (kwargs.what === undefined) { //What indefinido, quero todas as colunas
           return await app.db(kwargs.table)
-        }else{
+        } else {
           return await app.db(kwargs.table).select(...kwargs.what)
         }
       }
@@ -79,9 +79,9 @@ module.exports = app => {
   }
 
   async function del(table, where) {
-    try{
+    try {
       return await app.db(table).where(where).del()
-    }catch (err){
+    } catch (err) {
       console.log(err)
       throw err
     }
@@ -99,5 +99,5 @@ module.exports = app => {
     return days_diff > 365 * 5 + 2 //5 anos + 2 dias para o pior caso.
   }
 
-  return { select, insert, update, del, to_timestamp, time_limit}
+  return { select, insert, update, del, to_timestamp, time_limit }
 }
