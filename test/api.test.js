@@ -206,7 +206,7 @@ describe("Test user.js", () => {
     // data_post.cpf = 'cpfUser'
     // data_post.mail = 'user@mail'
     // data_post.password = '123'
-    // data_post.fk_roles_user = 2
+    // data_post.fk_roles_user = 1
     return request.post('/signup').send(data_post)
       .then(res => expect(res.statusCode).toEqual(204))
   })
@@ -218,7 +218,7 @@ describe("Test user.js", () => {
     // data_post.cpf = 'cpfEmploy'
     // data_post.mail = 'employee@mail'
     // data_post.password = '123'
-    data_post.fk_roles_user = 3
+    data_post.fk_roles_user = 2
     return request.post('/signup').send(data_post)
       .then(res => expect(res.statusCode).toEqual(204))
   })
@@ -227,11 +227,11 @@ describe("Test user.js", () => {
   test("Deve retornar statusCode 204 se conseguir persistir um novo admin no BD", () => {
     setInterval(pass_time, 1000)
     data_post = create_user_data()
-    // data_post.name= 'adminTest'
-    // data_post.cpf= 'cpfAdmin'
-    // data_post.mail= 'admin@mail'
-    // data_post.password= '123'
-    data_post.fk_roles_user = 1
+    data_post.name= 'adminTest'
+    data_post.cpf= 'cpfAdmin'
+    data_post.mail= 'admin@mail'
+    data_post.password= '123'
+    data_post.fk_roles_user = 3
     return request.post('/signup').send(data_post)
       .then(res => expect(res.statusCode).toEqual(204))
   })

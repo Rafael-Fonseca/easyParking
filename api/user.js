@@ -31,7 +31,7 @@ module.exports = app => {
           cpf: `${req.body.cpf}`,
           mail: `${req.body.mail}`,
           password: `${password}`,
-          fk_roles_user: req.body.fk_roles_user || 2,
+          fk_roles_user: req.body.fk_roles_user || 1,
           is_active: req.body.is_active || true,
         })
           .then(_ => res.status(204).send())
