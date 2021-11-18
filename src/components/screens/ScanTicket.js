@@ -17,9 +17,9 @@ export default function App({ navigation }) {
   }, []);
 
   const handleBarCodeScanned = ({ type, data }) => {
+    // console.log(`data em Scan: ${data}\n\ntype of: ${typeof data}\n\n`)
     if(type === 1){
       setScanned(true);
-      // console.log(`data em Scan: ${data}\n\ntype of: ${typeof data}\n\n`)
       navigation.navigate('CheckCost', {'ticket':data})
     }else{
       setScanned(false);
