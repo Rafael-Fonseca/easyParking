@@ -54,7 +54,6 @@ export default class CreateCompany extends Component {
   }
 
   render() {
-    console.log(this.props.navigation.state.params)
     return (
       <SafeAreaView style={commonStyles.background}>
         <StatusBar backgroundColor='#fff' />
