@@ -55,30 +55,59 @@ export default class CreateCard extends Component {
     this.props.navigation.navigate('Logged')
   }
   confirm = () => {
-    let card_data = {
-      num_cd: this.state.num_cd,
-      validity: this.state.validity,
-      credit: this.state.credit.find(e => e.selected == true).value,
-      // cvv: this.state,
-      nme_cd_holder: this.state.nme_cd_holder,
-      nme_cd: this.state.nme_cd
-    }
 
-    if (this.props.navigation.state.params){
-      card_data.pk_card = this.props.navigation.state.params.pk_card
-      axios.post(`${server}/cards_update`, card_data)
-      .then(() => {
-        showSuccess('Cartão alterado com sucesso!')
-        this.props.navigation.navigate('Logged')
-      })
-      .catch(e => showError(e))
-    }else{
-      axios.post(`${server}/cards_create`, card_data)
-      .then(() => {
-        showSuccess('Cartão cadastrado com sucesso!')
-        this.props.navigation.navigate('Logged')
-      })
-      .catch(e => showError(e))
+    try {
+      this.state.credit.find(e => e.selected == true).value
+      if (/^[0-9]+$/.test(this.state.num_cd) && this.state.num_cd.length === 16) {
+
+        if (this.state.validity != '') {
+
+          if (/^[0-9]+$/.test(this.state.cvv) && this.state.cvv.length === 3) {
+
+            if (this.state.nme_cd_holder != '') {
+              let card_data = {
+                num_cd: this.state.num_cd,
+                validity: this.state.validity,
+                credit: this.state.credit.find(e => e.selected == true).value,
+                nme_cd_holder: this.state.nme_cd_holder,
+                nme_cd: this.state.nme_cd
+              }
+
+              if (this.props.navigation.state.params){
+                card_data.pk_card = this.props.navigation.state.params.pk_card
+                axios.post(`${server}/cards_update`, card_data)
+                .then(() => {
+                  showSuccess('Cartão alterado com sucesso!')
+                  this.props.navigation.navigate('Logged')
+                })
+                .catch(e => showError(e))
+              }else{
+                axios.post(`${server}/cards_create`, card_data)
+                .then(() => {
+                  showSuccess('Cartão cadastrado com sucesso!')
+                  this.props.navigation.navigate('Logged')
+                })
+                .catch(e => showError(e))
+              }
+
+            } else {
+              Alert.alert('Nome do portador inválido!', 'Este campo não pode ser vazio.')
+            }
+          } else {
+            Alert.alert('CVV inválido!', 'O CVV deve ser preenchido com 3 números.')
+          }
+        } else {
+          Alert.alert('Validade inválida!', 'O campo validade não pode ser vazio.')
+        }
+
+      } else {
+        Alert.alert('Número de cartão inválido!', 'Preencha com 16 números.')
+      }
+
+    } catch (err) {
+      console.log(err)
+      Alert.alert('Função inválida!', 'Selecione Débito ou Crédito.')
+
     }
 
 
@@ -120,6 +149,7 @@ export default class CreateCard extends Component {
           <TextInput placeholder='Número do cartão'
             value={this.state.num_cd}
             style={commonStyles.input}
+            keyboardType='numeric'
             onChangeText={num_cd => this.setState({ num_cd })} />
 
           <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
@@ -131,6 +161,7 @@ export default class CreateCard extends Component {
             <TextInput placeholder='CVV'
               value={this.state.cvv}
               style={[commonStyles.input, { height: '100%', width: '45%' }]}
+              keyboardType='numeric'
               onChangeText={cvv => this.setState({ cvv })} />
           </View>
 
