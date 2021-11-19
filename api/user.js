@@ -149,8 +149,12 @@ module.exports = app => {
             res.status(400).send('Administradores só podem alterar a função de outros usuários.')
           } else {
             //ADMIN TENTANDO ALTERAR A FUNÇÃO DE OUTRO USUÁRIO, ACEITE A REQUISIÇÃO
-            app.api.dbHelper.update(table_users, update_data, where)
-            res.status(200).send('Usuário alterado com sucesso!')
+            changed = await app.api.dbHelper.update(table_users, update_data, where)
+            if (changed === 0){
+              res.status(200).send('Usuário não encontrado na base de dados!')
+            }else{
+              res.status(200).send('Usuário alterado com sucesso!')
+            }
           }
 
         } else {

@@ -17,7 +17,6 @@ import {
 import RadioGroup from 'react-native-radio-buttons-group'
 import Buttons from '../pieces/Buttons';
 
-//TODO: 
 const initialState = {
   cpf: '',
   role: [{
