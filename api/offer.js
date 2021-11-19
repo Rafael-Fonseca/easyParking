@@ -14,13 +14,13 @@ module.exports = app => {
       const kwargs = {
         table: 'tb_companies',
         where: { cnpj: req.body.cnpj },
-        what: ['pk_company'],
+        what: ['pk_company', 'is_active'],
         mode: 'first'
       }
 
       const company = await app.api.dbHelper.select(kwargs)
-      if (company === undefined) {
-        return res.status(250).send('Não foi possível localizar o cnpj informado.')
+      if (company === undefined || company.is_active === false) {
+        return res.status(255).send('Não foi possível localizar o cnpj informado.')
       }
 
       //DADOS COMPLETOS?
@@ -74,7 +74,7 @@ module.exports = app => {
           nme_company = await app.api.dbHelper.select({
             table: table_companies,
             what: ['nme_company', 'cnpj'],
-            where: {pk_company: offers[i].fk_companies_offers}
+            where: { pk_company: offers[i].fk_companies_offers }
           })
           offers[i].nme_company = nme_company[0].nme_company
           offers[i].cnpj = nme_company[0].cnpj
@@ -106,8 +106,19 @@ module.exports = app => {
 
         //INICIO CONSTRUÇÃO update_data - Este objeto indica o que será alterado
         let update_data = {}
-        if (req.body.fk_companies_offers !== undefined)
-          update_data.fk_companies_offers = req.body.fk_companies_offers
+        if (req.body.cnpj !== undefined) {
+          let fk = await app.api.dbHelper.select({
+            table: 'tb_companies',
+            where: { 'cnpj': req.body.cnpj },
+            what: ['pk_company', 'is_active'],
+            mode: 'first'
+          })
+
+          if (fk === undefined || fk.is_active === false){
+            return res.status(255).send('Cnpj inválido!')
+          }
+          update_data.fk_companies_offers = fk.pk_company
+        }
 
         if (req.body.tme_begin !== undefined)
           update_data.tme_begin = app.api.dbHelper.to_timestamp(req.body.tme_begin)

@@ -111,8 +111,12 @@ export default function App({ navigation }) {
                 'target_pk_offer': navigation.state.params.offer.pk_offer,
 
               })
-              navigation.navigate('AdmLogged')
-              Alert.alert(res.data)
+              if (res.status === 255){
+                Alert.alert('CNPJ inválido!', 'O CNPJ informado não foi localizado na base de dados.')
+              }else{
+                navigation.navigate('AdmLogged')
+                Alert.alert(res.data)
+              }
 
             } else {
               const res = await axios.post(`${server}/offer_create`, {
@@ -121,8 +125,13 @@ export default function App({ navigation }) {
                 'tme_begin': tme_begin.getTime(),
                 'img': reader.result,
               })
-              navigation.navigate('AdmLogged')
-              Alert.alert(res.data)
+              if (res.status === 255){
+                Alert.alert('CNPJ inválido!', 'O CNPJ informado não foi localizado na base de dados.')
+              }else{
+                navigation.navigate('AdmLogged')
+                Alert.alert(res.data)
+              }
+              
 
             }
           } catch (err) {
@@ -134,15 +143,21 @@ export default function App({ navigation }) {
         //TODO: Todas as outras exceções diferentes de network error deveriam
         // seguir por outro fluxo! 
         try {
-          const res = await axios.post(`${server}/offer_update`, {
+          axios.post(`${server}/offer_update`, {
             'cnpj': cnpj,
             'tme_end': tme_end.getTime(),
             'tme_begin': tme_begin.getTime(),
             'img': image,
             'target_pk_offer': navigation.state.params.offer.pk_offer,
+          }).then(res => {
+            if (res.status === 255){
+              Alert.alert(res.data)
+            } else {
+              navigation.navigate('AdmLogged')
+              Alert.alert(res.data)
+            }
           })
-          navigation.navigate('AdmLogged')
-          Alert.alert(res.data)
+          
 
         } catch (e) {
           console.log(e)
@@ -159,12 +174,15 @@ export default function App({ navigation }) {
       <View style={commonStyles.container}>
 
         <Text style={commonStyles.title}>
-          Cadastre a oferta
+          { navigation.state.params.offer === undefined
+          ? 'Cadastre a oferta'
+          : 'Altere a oferta'}
         </Text>
 
         <TextInput placeholder='CNPJ'
           value={cnpj}
           style={commonStyles.input}
+          keyboardType='numeric'
           onChangeText={cnpj => setCnpj(cnpj)} />
 
         <View style={{ marginTop: '5%', marginBottom: '2%' }}>
