@@ -8,6 +8,7 @@ import {
   Text,
   Image,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 import commonStyles from '../commonStyles';
 
@@ -33,7 +34,29 @@ export default class Login extends Component {
 
   signinOrSignup = () => {
     if (this.state.stageNew) {
-      this.signup()
+      if (this.state.password === this.state.confirmPassword && this.state.password.length === 6) {
+        
+        if (/^[0-9]+$/.test(this.state.cpf) && this.state.cpf.length === 11) {
+          
+          if (/^[a-z0-9.]+@[a-z0-9]+\.[a-z]+(\.[a-z]+)?$/i.test(this.state.mail)) {
+            
+            if(this.state.name != ''){
+              this.signup()
+            }else{
+              Alert.alert('Nome inválido!', 'O nome não pode estar vazio.')
+            }
+          } else {
+            Alert.alert('e-mail inválido!', 'O e-mail deve ter um início @domínio.algo.algo')
+          }
+        } else {
+          Alert.alert('CPF inválido!',
+            'O cpf deve conter apenas números e possuir 11 dígitos.')
+        }
+      } else {
+        Alert.alert('Senhas inválidas!',
+          'Ou valores digitados nos campos senha e confirmação de senha não são iguais.\n\nOu a senha não possui 6 dígitos.')
+      }
+
     } else {
       this.signin()
     }
@@ -45,7 +68,6 @@ export default class Login extends Component {
       cpf: this.state.cpf,
       mail: this.state.mail,
       password: this.state.password
-      // confirmPassword: `${this.state.confirmPassword}`,
     })
       .then(() => {
         showSuccess('Usuário cadastro!')
@@ -90,6 +112,7 @@ export default class Login extends Component {
             <TextInput placeholder='CPF'
               value={this.state.cpf}
               style={commonStyles.input}
+              keyboardType='numeric'
               onChangeText={cpf => this.setState({ cpf })} />
           }
 
@@ -104,13 +127,15 @@ export default class Login extends Component {
             value={this.state.password}
             style={commonStyles.input}
             secureTextEntry={true}
-            keyboardType = 'numeric'
+            keyboardType='numeric'
             onChangeText={password => this.setState({ password })} />
 
           {this.state.stageNew &&
             <TextInput placeholder='Confirme a senha'
               value={this.state.confirmPassword}
               style={commonStyles.input}
+              secureTextEntry={true}
+              keyboardType='numeric'
               onChangeText={confirmPassword => this.setState({ confirmPassword })} />
           }
 
@@ -128,7 +153,7 @@ export default class Login extends Component {
               source={require('../../../assets/logotype.png')} />
           }
 
-          {!this.state.stageNew &&
+          {/* {!this.state.stageNew &&
             <TouchableOpacity
             // onPress={onPress}
             >
@@ -137,7 +162,7 @@ export default class Login extends Component {
                 Esqueceu a senha?
               </Text>
             </TouchableOpacity>
-          }
+          } */}
 
           <TouchableOpacity
             onPress={() => this.setState({ stageNew: !this.state.stageNew })}
