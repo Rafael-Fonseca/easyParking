@@ -40,7 +40,11 @@ export default class GerCompanies extends Component {
     await axios.post(`${server}/company_read`, {
       cnpj: this.state.cnpj
     }).then(res => {
-      this.props.navigation.navigate('UpdateCompany', res.data)
+      if(res.data !== '' && res.data.is_active === true){
+        this.props.navigation.navigate('UpdateCompany', res.data)
+      }else{
+        Alert.alert('CNPJ inválido!', 'O CNPJ informado não foi encontrado na base de dados.')
+      }
     })
   }
 
@@ -62,6 +66,7 @@ export default class GerCompanies extends Component {
           <TextInput placeholder='CNPJ'
             value={this.state.cnpj}
             style={commonStyles.input}
+            keyboardType='numeric'
             onChangeText={cnpj => this.setState({ cnpj })} />
 
           <View style={commonStyles.backOrNext}>

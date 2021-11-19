@@ -25,7 +25,8 @@ const initialState = {
 export default class CreateCompany extends Component {
 
   state = {
-    ...initialState
+    cnpj: this.props.navigation.state.params.cnpj,
+    nme_company: this.props.navigation.state.params.nme_company
   }
 
   back = () => {
@@ -53,6 +54,7 @@ export default class CreateCompany extends Component {
   }
 
   render() {
+    console.log(this.props.navigation.state.params)
     return (
       <SafeAreaView style={commonStyles.background}>
         <StatusBar backgroundColor='#fff' />
@@ -66,6 +68,7 @@ export default class CreateCompany extends Component {
           <TextInput placeholder='Insira o cnpj: '
             value={this.state.cnpj}
             style={commonStyles.input}
+            keyboardType='numeric'
             onChangeText={cnpj => this.setState({ cnpj })} />
 
           <TextInput placeholder='Insira o nome da empresa: '

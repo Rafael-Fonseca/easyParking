@@ -34,13 +34,25 @@ export default class CreateCompany extends Component {
   }
 
   confirm = async () => {
-    await axios.post(`${server}/company_create`, {
-      cnpj: this.state.cnpj,
-      nme_company: this.state.nme_company,
-    }).then(res => {
-      this.props.navigation.navigate('AdmLogged')
-      Alert.alert(res.data)
-    })
+    if (/^[0-9]+$/.test(this.state.cnpj) && this.state.cnpj.length === 14) {
+
+      if(this.state.nme_company !== ''){
+        await axios.post(`${server}/company_create`, {
+          cnpj: this.state.cnpj,
+          nme_company: this.state.nme_company,
+        }).then(res => {
+          this.props.navigation.navigate('AdmLogged')
+          Alert.alert(res.data)
+        })
+      }else{
+      Alert.alert('Nome da empresa inválido!', 'O nome não pode estar vazio.')
+
+      }
+      
+    } else {
+      Alert.alert('CNPJ inválido!', 'O CNPJ deve ser preenchido com 14 números.\nSem caracteres especiais.')
+    }
+
   }
 
   render() {
@@ -57,11 +69,12 @@ export default class CreateCompany extends Component {
           <TextInput placeholder='CNPJ'
             value={this.state.cnpj}
             style={commonStyles.input}
+            keyboardType='numeric'
             onChangeText={cnpj => this.setState({ cnpj })} />
 
           <TextInput placeholder='Nome da empresa'
             value={this.state.nme_company}
-            style={[commonStyles.input, {marginTop: '6%'}]}
+            style={[commonStyles.input, { marginTop: '6%' }]}
             onChangeText={nme_company => this.setState({ nme_company })} />
 
           <View style={commonStyles.backOrNext}>
