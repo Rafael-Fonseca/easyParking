@@ -55,29 +55,60 @@ export default class CheckCost extends Component {
       const res = await axios.post(`${server}/ticket_read`,
         {
           'target_pk_bar_code': this.props.navigation.state.params.ticket.split(':')[1],
-          'what': 'tme_start',
+          'what': ['tme_start', 'tme_end'],
           'mode': 'first,'
         })
 
-      let timestampTicket = new Date(res.data[0].tme_start).getTime()
-      let actualTime = new Date().getTime()
+      // console.log('RETORNO', res.data[0].tme_end)  // null
+      let timestampTicket = 0
 
-      var timeDiff = Math.abs(actualTime - timestampTicket)
-      var diffHours = timeDiff / (1000 * 60 * 60)
-      var diffMins = (diffHours - Math.floor(diffHours)) * 60
-      var diffSecs = (diffMins - Math.floor(diffMins)) * 60
-      var min_cost = await (await axios.get(`${server}/get_cost`)).data[0].min_cost
-      var cost = Math.floor(timeDiff / (1000 * 60)) * min_cost
+      if (res.data[0].tme_end === null) {
+        timestampTicket = new Date(res.data[0].tme_start).getTime()
+        let actualTime = new Date().getTime()
 
-      this.props.navigation.navigate('CheckCost', {
-        'ticket': this.props.navigation.state.params.ticket,
-        'times': {
-          'hours': Math.floor(diffHours),
-          'mins': Math.floor(diffMins),
-          'secs': Math.floor(diffSecs),
-        },
-        'cost': cost
-      })
+        var timeDiff = Math.abs(actualTime - timestampTicket)
+        var diffHours = timeDiff / (1000 * 60 * 60)
+        var diffMins = (diffHours - Math.floor(diffHours)) * 60
+        var diffSecs = (diffMins - Math.floor(diffMins)) * 60
+        var min_cost = await (await axios.get(`${server}/get_cost`)).data[0].min_cost
+        var cost = Math.floor(timeDiff / (1000 * 60)) * min_cost
+
+        this.props.navigation.navigate('CheckCost', {
+          'ticket': this.props.navigation.state.params.ticket,
+          'times': {
+            'hours': Math.floor(diffHours),
+            'mins': Math.floor(diffMins),
+            'secs': Math.floor(diffSecs),
+          },
+          'cost': cost,
+          'tme_end': ''
+        })
+      } else { //tme_end preenchido
+
+        timestampTicket = new Date(res.data[0].tme_start).getTime()
+        let actualTime = new Date(res.data[0].tme_end).getTime()
+
+        var timeDiff = Math.abs(actualTime - timestampTicket)
+        var diffHours = timeDiff / (1000 * 60 * 60)
+        var diffMins = (diffHours - Math.floor(diffHours)) * 60
+        var diffSecs = (diffMins - Math.floor(diffMins)) * 60
+        var cost = 'Este Ticket está pago.'
+
+        this.props.navigation.navigate('CheckCost', {
+          'ticket': this.props.navigation.state.params.ticket,
+          'times': {
+            'hours': Math.floor(diffHours),
+            'mins': Math.floor(diffMins),
+            'secs': Math.floor(diffSecs),
+          },
+          'cost': cost,
+          'tme_end': 'outro'
+        })
+      }
+
+
+
+
     } catch (err) {
       showError(err)
     }
@@ -121,21 +152,31 @@ export default class CheckCost extends Component {
         </Text>
 
         <Text style={commonStyles.title}>
-          {this.props.navigation.state.params.cost ?
-            `R$ ${this.props.navigation.state.params.cost.toFixed(2)}` : '0,00'}
+          {this.props.navigation.state.params.cost &&
+            this.props.navigation.state.params.tme_end === '' ?
+            `R$ ${this.props.navigation.state.params.cost.toFixed(2)}`
+            : this.props.navigation.state.params.cost}
         </Text>
 
         <View style={commonStyles.panelContainer}>
 
-          <View style={commonStyles.topPanelContainer}>
-            <Buttons title={`Menu`} top onClick={this.menu} />
-            <Buttons title={` Atualizar \n  Valor`} top onClick={this.renew} />
-          </View>
+          {this.props.navigation.state.params.tme_end === '' &&
+            <View style={commonStyles.topPanelContainer}>
+              <Buttons title={`Menu`} top onClick={this.menu} />
+              <Buttons title={` Atualizar \n  Valor`} top onClick={this.renew} />
+            </View>
+          }
+
 
           <View style={commonStyles.bottomPanelContainer}>
-            <Buttons title={`Efetuar pagamento`}
+            {this.props.navigation.state.params.tme_end === ''
+              ? <Buttons title={`Efetuar pagamento`}
               bot onClick={this.selectCard} />
+              : <Buttons title={`Menu`} bot onClick={this.menu} />
+              
+            }
           </View>
+
         </View>
 
 
