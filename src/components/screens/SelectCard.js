@@ -21,7 +21,8 @@ export default class GerCards extends Component {
 
   navigator = this.props.navigation
   back = () => {
-    this.props.navigation.navigate('Logged')
+    let pk_bar_code = 'easyParking:' + String(this.navigator.getParam('pk_bar_code'))
+    this.props.navigation.navigate('CheckCost', {ticket: pk_bar_code})
   }
 
 
