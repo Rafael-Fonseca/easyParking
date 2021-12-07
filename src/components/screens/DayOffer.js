@@ -29,7 +29,7 @@ export default class DayOffer extends Component {
 
     let offers = []
     for (let i = 0; i < Object.keys(this.props.navigation.state.params).length; i++) {
-      if (this.navigator.getParam(i).is_active) {
+      if (this.props.navigation.getParam(i).is_active) {
         offers.push(
           <LabelOffer
             offer={this.props.navigation.getParam(i)}

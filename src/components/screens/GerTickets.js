@@ -35,12 +35,17 @@ export default class GerTickets extends Component {
   }
 
   confirm = async () => {
-    await axios.post(`${server}/setting_update`, {
-      min_cost: this.state.cost_min
-    }).then(res => {
-      this.props.navigation.navigate('AdmLogged')
-      Alert.alert(res.data)
-    })
+    if (this.state.cost_min == ""){
+      Alert.alert('Valor inválido!', 'O custo por minuto não pode ser vazio.')
+    } else{
+      await axios.post(`${server}/setting_update`, {
+        min_cost: this.state.cost_min
+      }).then(res => {
+        this.props.navigation.navigate('AdmLogged')
+        Alert.alert(res.data)
+      })
+    }
+    
   }
 
   render() {
