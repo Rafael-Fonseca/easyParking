@@ -8,9 +8,9 @@ const paymentServer = Platform.OS === 'ios'
 
 function showError(err) {
     if (err.response && err.response.data) {
-        Alert.alert('Ops! Ocorreu um Problema!1', `Mensagem: ${err.response.data}`)
+        Alert.alert('Ops! Ocorreu um Problema!', `${err.response.data}`)
     } else {
-        Alert.alert('Ops! Ocorreu um Problema!2', `Mensagem: ${err}`)
+        Alert.alert('Ops! Ocorreu um Problema!', `${err}`)
     }
 }
 
